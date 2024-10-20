@@ -9,8 +9,11 @@ package org.carlmontrobotics;
 // import org.carlmontrobotics.commands.*;
 import static org.carlmontrobotics.Constants.OI;
 
+import org.carlmontrobotics.Subsystems.Drivetrain;
+
 //controllers
 import edu.wpi.first.wpilibj.GenericHID;
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.XboxController.Axis;
 
 //commands
@@ -25,12 +28,15 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
+
 public class RobotContainer {
 
   //1. using GenericHID allows us to use different kinds of controllers
   //2. Use absolute paths from constants to reduce confusion
-  public final GenericHID driverController = new GenericHID(OI.Driver.port);
-  public final GenericHID manipulatorController = new GenericHID(OI.Manipulator.port);
+  public final XboxController driver = new XboxController(OI.Driver.port);
+  public final Drivetrain drivetrain = new Drivetrain();
+  //public final GenericHID driverController = new GenericHID(OI.Driver.port);
+  //public final GenericHID manipulatorController = new GenericHID(OI.Manipulator.port);
 
   public RobotContainer() {
 
@@ -39,7 +45,14 @@ public class RobotContainer {
     setBindingsManipulator();
   }
 
+  private void periodic() {
+    drivetrain.move;
+  }
+
   private void setDefaultCommands() {
+    drivetrain.setDefaultCommand(new Drivetrain(
+    () -> ProcessedAxisValue(driver, Axis.kLeftY),
+    () -> ProcessedAxisValue(driver, Axis.kRightX)));
     // drivetrain.setDefaultCommand(new TeleopDrive(
     //   drivetrain,
     //   () -> ProcessedAxisValue(driverController, Axis.kLeftY)),
