@@ -51,8 +51,8 @@ public class RobotContainer {
 
   private void setDefaultCommands() {
     drivetrain.setDefaultCommand(new Drivetrain(
-    () -> ProcessedAxisValue(driver, Axis.kLeftY),
-    () -> ProcessedAxisValue(driver, Axis.kRightX)));
+      () -> ProcessedAxisValue(driver, Axis.kLeftY),
+      () -> ProcessedAxisValue(driver, Axis.kRightX)));
     // drivetrain.setDefaultCommand(new TeleopDrive(
     //   drivetrain,
     //   () -> ProcessedAxisValue(driverController, Axis.kLeftY)),

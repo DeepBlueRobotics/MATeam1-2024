@@ -35,11 +35,11 @@ public class Drivetrain {
         double[] posYArr = {yAxis+xAxis, yAxis-xAxis};
         double[] negYArr = {yAxis-xAxis, yAxis+xAxis};
         if (yAxis==0) {
-            double[] arr= {xAxis, -xAxis}
+            double[] arr= {xAxis, -xAxis};
             return arr;
         }
         else if (xAxis==0) {
-            double [] arr = {yAxis, yAxis}
+            double [] arr = {yAxis, yAxis};
             return arr;
         }
         else if (yAxis<0) {
@@ -48,5 +48,7 @@ public class Drivetrain {
         else if (yAxis > 0) {
             return posYArr;
         }
+        double [] empty = {0.0,0.0};
+        return empty;
     }
 }
