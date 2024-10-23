@@ -30,7 +30,7 @@ public class Drivetrain extends SubsystemBase{
     CANSparkMax motor2 = MotorControllerFactory.createSparkMax(Drivetrainc.right_motor_id,MotorConfig.NEO);
     double YAxis, XAxis;
     private AHRS navx;
-    //_init_
+    //_init_ navx/gyro
     public Drivetrain() {
         try {
             navx = new AHRS(SPI.Port.kMXP);  // Initialize NavX
