@@ -29,9 +29,14 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 //1. using GenericHID allows us to use different kinds of controllers
   //2. Use absolute paths from constants to reduce confusion
+  //XBox Controller
   public final XboxController driver = new XboxController(OI.Driver.port);
+  //Creating an object of DT Class
   public final Drivetrain drivetrain = new Drivetrain();
-  public final GenericHID driverController = new GenericHID(OI.Driver.port);
+  public fin  al GenericHID driverController = new GenericHID(OI.Driver.port);
+  //Creating an object of Dumper Class
+  public final Dumper dumper = new Dumper();
+  //public final GenericHID driverController = new GenericHID(OI.Driver.port);
   //public final GenericHID manipulatorController = new GenericHID(OI.Manipulator.port);
 
 public class RobotContainer {
@@ -43,6 +48,23 @@ public class RobotContainer {
 
   private void setBindings() {
 
+  private void setDefaultCommands() {
+    drivetrain.setDefaultCommand(new Drivetrain(
+      () -> ProcessedAxisValue(driver, Axis.kLeftY),
+      () -> ProcessedAxisValue(driver, Axis.kRightX)));
+    //Setting the default command to check inputs of the A button
+    //I'm thinking once it's pressed, the load is lifted, but once
+    //the button is released, the load is slid down
+    dumper.setDefaultCommand(new Dumper(
+      () -> getAButtonPressed(),
+      () -> getAButtonReleased()));
+    // drivetrain.setDefaultCommand(new TeleopDrive(
+    //   drivetrain,
+    //   () -> ProcessedAxisValue(driverController, Axis.kLeftY)),
+    //   () -> ProcessedAxisValue(driverController, Axis.kLeftX)),
+    //   () -> ProcessedAxisValue(driverController, Axis.kRightX)),
+    //   () -> driverController.getRawButton(OI.Driver.slowDriveButton)
+    // ));
   }
 
   public Command getAutonomousCommand() {
