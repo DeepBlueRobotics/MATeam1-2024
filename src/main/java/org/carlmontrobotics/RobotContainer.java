@@ -5,11 +5,10 @@
 package org.carlmontrobotics;
 
 //199 files
-// import org.carlmontrobotics.subsystems.*;
+//ERROR:
 // import org.carlmontrobotics.commands.*;
-import static org.carlmontrobotics.Constants.OI;
-
-import org.carlmontrobotics.Subsystems.Drivetrain;
+// import org.carlmontrobotics.subsystems.*;
+// import static org.carlmontrobotics.Constants.*;
 
 //controllers
 import edu.wpi.first.wpilibj.GenericHID;
@@ -28,41 +27,23 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
-
-public class RobotContainer {
-
-  //1. using GenericHID allows us to use different kinds of controllers
+//1. using GenericHID allows us to use different kinds of controllers
   //2. Use absolute paths from constants to reduce confusion
   public final XboxController driver = new XboxController(OI.Driver.port);
   public final Drivetrain drivetrain = new Drivetrain();
-  //public final GenericHID driverController = new GenericHID(OI.Driver.port);
+  public final GenericHID driverController = new GenericHID(OI.Driver.port);
   //public final GenericHID manipulatorController = new GenericHID(OI.Manipulator.port);
 
+public class RobotContainer {
+  public final XboxController controller = new XboxController(OI.port);
+
   public RobotContainer() {
-
-    setDefaultCommands();
-    setBindingsDriver();
-    setBindingsManipulator();
+    setBindings();
   }
 
-  private void periodic() {
-    drivetrain.move;
-  }
+  private void setBindings() {
 
-  private void setDefaultCommands() {
-    drivetrain.setDefaultCommand(new Drivetrain(
-      () -> ProcessedAxisValue(driver, Axis.kLeftY),
-      () -> ProcessedAxisValue(driver, Axis.kRightX)));
-    // drivetrain.setDefaultCommand(new TeleopDrive(
-    //   drivetrain,
-    //   () -> ProcessedAxisValue(driverController, Axis.kLeftY)),
-    //   () -> ProcessedAxisValue(driverController, Axis.kLeftX)),
-    //   () -> ProcessedAxisValue(driverController, Axis.kRightX)),
-    //   () -> driverController.getRawButton(OI.Driver.slowDriveButton)
-    // ));
   }
-  private void setBindingsDriver() {}
-  private void setBindingsManipulator() {}
 
   public Command getAutonomousCommand() {
     return Commands.print("No autonomous command configured");
