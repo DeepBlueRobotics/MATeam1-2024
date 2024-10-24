@@ -10,10 +10,10 @@ public final class Constants {
         public static final double kD = 0.1;
         
         //Find out the values
-        //public static final double wheel_diameter = 
-        //public static final double wheel_radius = 
+        //public static final double wheel_diameter = //inches
+        //public static final double wheel_radius = //inches
         //d_wheels stands for distance between the wheels(dominant)
-        //public static final double d_wheels = 
+        //public static final double d_wheels = //inches
         //public static final double rotation_lenght = 3.141529*wheel_diameter;
     }
     public static final class Dumperc {
@@ -22,12 +22,20 @@ public final class Constants {
         public static final double kP = 0.1;
         public static final double kI = 0.1;
         public static final double kD = 0.1;
-        public static final double soft_stop = 50; //degrees
+        public static final double soft_stop_degrees = 50; //degrees
+        public static final double soft_stop_rotations = soft_stop_degrees/360; //rotations
         // Figure this out
-        //public static final double drop_off_angle = 
+        public static final double drop_off_angle = 45;
         public static final double resting_angle = 0;
 
 
+    }
+    public static final class HitAndRunAutonc {
+        //from the center of the robot
+        //public static final double min_d_perimeter = //inches
+        //public static final double max_d_perimeter = //inches
+        //public static final double robot_length = //inches
+        public static final double drop_off_wait_time = 2.0; //seconds
     }
     public static final class OI {
         public static final class Driver {

@@ -28,7 +28,7 @@ import edu.wpi.first.wpilibj2.command.button.POVButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import org.carlmontrobotics.Constants.OI;
 import org.carlmontrobotics.Commands;
-import org.carlmontrobotics.Subsystems.*;;
+import org.carlmontrobotics.Subsystems;
 
 //1. using GenericHID allows us to use different kinds of controllers
   //2. Use absolute paths from constants to reduce confusion
