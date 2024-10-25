@@ -5,6 +5,7 @@ import java.util.function.DoubleSupplier;
 import org.carlmontrobotics.lib199.MotorConfig;
 import org.carlmontrobotics.lib199.MotorControllerFactory;
 
+import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkMax;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -30,6 +31,7 @@ public class Drivetrain extends SubsystemBase{
     CANSparkMax motor2 = MotorControllerFactory.createSparkMax(Drivetrainc.right_motor_id,MotorConfig.NEO);
     double YAxis, XAxis;
     private AHRS navx;
+    double pi = Math.PI
     //_init_ navx/gyro
     public Drivetrain() {
         try {
@@ -46,6 +48,11 @@ public class Drivetrain extends SubsystemBase{
         double[] motorInputs = jIP(YAxis, XAxis);
         motor1.set(motorInputs[0]);
         motor2.set(motorInputs[1]);
+    }
+    
+    public void brakeMotor() {
+        motor1.set(0);
+        motor2.set(0);
     }
     
 
@@ -80,5 +87,12 @@ public class Drivetrain extends SubsystemBase{
     //Method to reset gyro
     public void resetYaw() {
         navx.reset();
+    }
+    public void resetMotors() {
+        //set both encoders to 0;
+    }
+    public double getDistance() {
+        double average_rotation = (motor1.getPosition()+motor2.getPosition())/2;
+        return average_rotation*pi*Drivetrainc.wheel_diameter;
     }
 }

@@ -5,8 +5,8 @@ import java.util.function.DoubleSupplier;
 import org.carlmontrobotics.lib199.MotorConfig;
 import org.carlmontrobotics.lib199.MotorControllerFactory;
 
+import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkMax;
-import com.revrobotics.RelativeEncoder;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -17,6 +17,7 @@ import org.mockito.internal.matchers.Null;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.PS4Controller.Axis;
 import edu.wpi.first.wpilibj2.command.Command;
+
 
 import org.carlmontrobotics.Constants.Dumperc;
 
@@ -33,6 +34,8 @@ public class Dumper extends SubsystemBase{
         Using PID or some of it make a code that will go toward the goal of staying at the dropoff angle
         While the specfic button is pressed, robot container will continously call this causing the slide to be at the angle
         Leave break mode on so it will not osilate too much
+        motor.setIdleMode(IdleMode.kBrake);
+        Warning! brake mode does not fully stop the motor from moving! The slide is heavy and so gravity will pull it downs
         You can use motor.getPosition() to get the exact amount of rotations, like 2.43 rotations
         Make sure to call in softStop to make sure that you are not going to much accidently
         */
@@ -44,8 +47,10 @@ public class Dumper extends SubsystemBase{
          */
     }
     public void rest() {
-        //SLOWLY lower the arm down(coast mode maybe?)
         //When the specific button is not pressed this method will be called.
+        //IF the dumper tips over 90 degreesrest should cause to go back SLOWLY not agressive
+        //IF it is not tipped over then use motor.setIdleMode(IdleMode.kCoast); 
+        //this will cause the motor to stop preventing itself from moving and will easily go down
     }
 
     private double pID() {

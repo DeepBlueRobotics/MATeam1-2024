@@ -14,7 +14,6 @@ public final class Constants {
         //public static final double wheel_radius = //inches
         //d_wheels stands for distance between the wheels(dominant)
         //public static final double d_wheels = //inches
-        //public static final double rotation_lenght = 3.141529*wheel_diameter;
     }
     public static final class Dumperc {
         public static final int dumper_id = 2;
@@ -32,10 +31,14 @@ public final class Constants {
     }
     public static final class HitAndRunAutonc {
         //from the center of the robot
-        //public static final double min_d_perimeter = //inches
-        //public static final double max_d_perimeter = //inches
-        //public static final double robot_length = //inches
+        //FIND THESE OUT
+        public static final double min_d = 0;//inches
+        public static final double max_d = 0;//inches
+        public static final double robot_length = 0;//inches
         public static final double drop_off_wait_time = 2.0; //seconds
+        public static final double kP = Dumperc.kP;
+        public static final double kI = Dumperc.kI;
+        public static final double kD = Dumperc.kD;
     }
     public static final class OI {
         public static final class Driver {
