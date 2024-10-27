@@ -9,6 +9,8 @@ public final class Constants {
         public static final double kI = 0.1;
         public static final double kD = 0.1;
         
+        public static final int motor1_rotation_k = 1;
+        public static final int motor2_rotation_k = -1;
         //Find out the values
         //public static final double wheel_diameter = //inches
         //public static final double wheel_radius = //inches
@@ -23,6 +25,7 @@ public final class Constants {
         public static final double kD = 0.1;
         public static final double soft_stop_degrees = 50; //degrees
         public static final double soft_stop_rotations = soft_stop_degrees/360; //rotations
+        public static final int rotation_k = 1;
         // Figure this out
         public static final double drop_off_angle = 45;
         public static final double resting_angle = 0;

@@ -31,7 +31,9 @@ public class Drivetrain extends SubsystemBase{
     CANSparkMax motor2 = MotorControllerFactory.createSparkMax(Drivetrainc.right_motor_id,MotorConfig.NEO);
     double YAxis, XAxis;
     private AHRS navx;
-    double pi = Math.PI
+    double pi = Math.PI;
+    private final Dumper dumper;
+    
     //_init_ navx/gyro
     public Drivetrain() {
         try {
@@ -45,9 +47,12 @@ public class Drivetrain extends SubsystemBase{
     public void arcadeDrive(double left, double right) {
         // double YAxis = left.getAsDouble();
         // double XAxis = right.getAsDouble();
-        double[] motorInputs = jIP(YAxis, XAxis);
-        motor1.set(motorInputs[0]);
-        motor2.set(motorInputs[1]);
+        if (checkBalance()) {
+            double[] motorInputs = jIP(YAxis, XAxis);
+            motor1.set(motorInputs[0]*Drivetrainc.motor1_rotation_k);
+            motor2.set(motorInputs[1]*Drivetrainc.motor2_rotation_k);
+        }
+        
     }
     
     public void brakeMotor() {
@@ -80,19 +85,34 @@ public class Drivetrain extends SubsystemBase{
         double [] empty = {0.0,0.0};
         return empty;
     }
+
     //Method to get current rotation angle
     public double getYaw() {
         return navx.getYaw(); // Yaw angle in degrees [-180,180]
     }
+
     //Method to reset gyro
     public void resetYaw() {
         navx.reset();
     }
+
     public void resetMotors() {
         //set both encoders to 0;
+        motor1.getEncoder().setPosition(0);
+        motor2.getEncoder().setPosition(0);
     }
+
     public double getDistance() {
-        double average_rotation = (motor1.getPosition()+motor2.getPosition())/2;
+        double average_rotation = (motor1.getEncoder().getPosition()+motor2.getEncoder().getPosition())/2;
         return average_rotation*pi*Drivetrainc.wheel_diameter;
+    }
+    //makes sure that the robot won't run away while the dumper is off balance
+    private boolean checkBalance() {
+        if (dumper.softStop) {
+            return true;
+        }
+        else {
+            return false;
+        }
     }
 }

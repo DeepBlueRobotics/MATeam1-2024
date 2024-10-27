@@ -49,7 +49,7 @@ public class HitAndRunAuton extends Command{
         if (cube_scored) {
             if (time_dropped_off+HitAndRunAutonc.drop_off_wait_time <= timer.get()) {
                 dumper.rest();
-                currentPos = drivetrain.getDistance()
+                currentPos = drivetrain.getDistance();
                 if (currentPos >= HitAndRunAutonc.min_d && currentPos <= HitAndRunAutonc.max_d) {
                     drivetrain.brakeMotor();
                 }
@@ -84,9 +84,6 @@ public class HitAndRunAuton extends Command{
         previousError = error;
 
         return kP * error + accumulatedError + kD * derivative;
-    }
-    private double findPos() {
-
     }
 
 

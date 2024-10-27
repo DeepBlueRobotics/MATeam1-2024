@@ -27,8 +27,9 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import org.carlmontrobotics.Constants.OI;
-import org.carlmontrobotics.Commands;
-import org.carlmontrobotics.Subsystems;
+import org.carlmontrobotics.Subsystems.Drivetrain;
+import org.carlmontrobotics.Subsystems.Dumper;
+
 
 //1. using GenericHID allows us to use different kinds of controllers
   //2. Use absolute paths from constants to reduce confusion
@@ -43,10 +44,13 @@ public class RobotContainer {
   //Creating an object of DT Class
   public final Drivetrain drivetrain = new Drivetrain();
   //Creating an object of Dumper Class
-  public final Dumper dumper = new Dumper();
-  //
-  public final XboxController controller = new XboxController(OI.port);
+  drivetrain.resetYaw();
 
+  public final Dumper dumper = new Dumper();
+  //Creates an object of Xbox controller
+  public final XboxController controller = new XboxController(OI.port);
+  //
+  
   public RobotContainer() {
     setBindings();
   }
