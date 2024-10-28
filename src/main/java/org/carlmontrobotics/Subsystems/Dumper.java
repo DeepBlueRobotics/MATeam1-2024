@@ -15,7 +15,7 @@ import java.util.ResourceBundle.Control;
 import org.mockito.internal.matchers.Null;
 
 import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.PS4Controller.Axis;
+import edu.wpi.first.wpilibj.PS4Controller.Axis; 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj.Timer;
 
@@ -32,6 +32,7 @@ public class Dumper extends SubsystemBase{
     public Dumper() {
         //Intiallize the subsystem
         //You would want to reset the point where the motor reconginzes 0 degrees/0 rotations so it will be easier for dropOff and the other code
+        dumperMotor.getEncoder().setPosition(0);
     }
 
     public void dropOff() {
@@ -46,14 +47,38 @@ public class Dumper extends SubsystemBase{
         You can use motor.getEncoder().getPosition() to get the exact amount of rotations, like 2.43 rotations
         Make sure to call in softStop to make sure that you are not going to much accidently
         */
+        if (softStop()) {
+            if (achievedDropOff()) {
+                dumperMotor.set(0);
+                dumperMotor.setIdleMode(IdleMode.kBrake);
+            }
+            else {
+                //The postition is in degrees
+                double currentAngle = dumperMotor.getEncoder().getPosition()*360;
+                dumperMotor.set(pID(currentAngle, Dumperc.drop_off_angle, Dumperc.kP, Dumperc.kI, Dumperc.kD));
+            }
+        }
+        else {
+            dumperMotor.set(0);
+            dumperMotor.setIdleMode(IdleMode.kBrake);
+        }
     }
 
     public boolean achievedDropOff() {
         /*
-         return if the current position of the slide is at the drop off angle or greater
+         return True if the current position of the slide is at the drop off angle or greater
          */
+        //The postition is in degrees
+        double currentAngle = dumperMotor.getEncoder().getPosition()*360;
+        if (currentAngle >= Dumperc.drop_off_angle) {
+            return true;
+        }
+        else {
+            return false;
+        }
+        
     }
-    
+
     public void rest() {
         //When the specific button is not pressed this method will be called.
         //IF the dumper tips over 90 degrees, rest should cause to go back SLOWLY not agressive
@@ -98,5 +123,12 @@ public class Dumper extends SubsystemBase{
          return False if not
          don't worry about it being very close, that is why it is a soft stop
          */
+        double currentAngle = dumperMotor.getEncoder().getPosition();
+        if (currentAngle < Dumperc.soft_stop_degrees) {
+            return true;
+        }
+        else {
+            return false; 
+        }
     }
 }
