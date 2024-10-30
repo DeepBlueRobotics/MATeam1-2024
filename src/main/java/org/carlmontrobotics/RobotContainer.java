@@ -26,6 +26,8 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+
+import org.carlmontrobotics.Commands.AutoAlignToShelf;
 import org.carlmontrobotics.Constants.OI;
 import org.carlmontrobotics.Subsystems.Drivetrain;
 import org.carlmontrobotics.Subsystems.Dumper;
@@ -48,7 +50,8 @@ public class RobotContainer {
   }
 
   private void setBindings() {
-    new JoystickButton(controller, OI.dumperTrigger);
+    new Trigger(()->Math.abs(getStickValue(controller, OI.dumperTrigger)) > OI.triggerSensitivity).whileTrue(new InstantCommand(()->{dumper.dropOff();}));
+    new Trigger(()->Math.abs(getStickValue(controller, OI.alignTrigger)) > OI.triggerSensitivity).whileTrue(new InstantCommand(()->{AutoAlignToShelf.execute();}));
 
   }
   private double getStickyValue(GenericHID hid, Axis axis) {
