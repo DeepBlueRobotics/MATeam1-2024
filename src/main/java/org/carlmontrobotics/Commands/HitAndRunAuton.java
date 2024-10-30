@@ -33,7 +33,7 @@ public class HitAndRunAuton extends Command{
 
     public HitAndRunAuton(Drivetrain drivetrain, Dumper dumper) {
         addRequirements(this.drivetrain = drivetrain, this.dumper = dumper);
-        drivetrain.resetMotors();
+        drivetrain.resetEncoders();
     }
 
     // Called when the command is initially scheduled.

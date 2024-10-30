@@ -31,9 +31,9 @@ public class Drivetrain extends SubsystemBase{
     CANSparkMax motor2 = MotorControllerFactory.createSparkMax(Drivetrainc.right_motor_id,MotorConfig.NEO);
     double YAxis, XAxis;
     private AHRS navx;
-    double pi = Math.PI;
-    private final Dumper dumper;
-    
+    private final static double pi = Math.PI;
+    private final Dumper dumper = new Dumper();
+
     //_init_ navx/gyro
     public Drivetrain() {
         try {
@@ -45,8 +45,6 @@ public class Drivetrain extends SubsystemBase{
 
     //Arcade Drive method, inputs are left y axis for forward and backward and a right x axis for rotional movement
     public void arcadeDrive(double left, double right) {
-        // double YAxis = left.getAsDouble();
-        // double XAxis = right.getAsDouble();
         if (checkBalance()) {
             double[] motorInputs = jIP(YAxis, XAxis);
             motor1.set(motorInputs[0]*Drivetrainc.motor1_rotation_k);
@@ -54,7 +52,7 @@ public class Drivetrain extends SubsystemBase{
         }
         
     }
-    
+    //it stops the drivetrain (aka a brake)
     public void brakeMotor() {
         motor1.set(0);
         motor2.set(0);
@@ -96,12 +94,14 @@ public class Drivetrain extends SubsystemBase{
         navx.reset();
     }
 
-    public void resetMotors() {
+    //resets the encoders
+    public void resetEncoders() {
         //set both encoders to 0;
         motor1.getEncoder().setPosition(0);
         motor2.getEncoder().setPosition(0);
     }
 
+    //finds distance that drivetrain/robot has traveled
     public double getDistance() {
         double average_rotation = (motor1.getEncoder().getPosition()+motor2.getEncoder().getPosition())/2;
         return average_rotation*pi*Drivetrainc.wheel_diameter;

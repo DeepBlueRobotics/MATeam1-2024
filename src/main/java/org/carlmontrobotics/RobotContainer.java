@@ -21,7 +21,7 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-
+import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 //control bindings
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
@@ -30,54 +30,49 @@ import org.carlmontrobotics.Constants.OI;
 import org.carlmontrobotics.Subsystems.Drivetrain;
 import org.carlmontrobotics.Subsystems.Dumper;
 
-
-//1. using GenericHID allows us to use different kinds of controllers
-  //2. Use absolute paths from constants to reduce confusion
-  //XBox Controller
-  public final XboxController driver = new XboxController(OI.Driver.port);
-
-  public final GenericHID driverController = new GenericHID(OI.Driver.port);
-  //public final GenericHID driverController = new GenericHID(OI.Driver.port);
-  //public final GenericHID manipulatorController = new GenericHID(OI.Manipulator.port);
-
 public class RobotContainer {
   //Creating an object of DT Class
   public final Drivetrain drivetrain = new Drivetrain();
-  //Creating an object of Dumper Class
-  drivetrain.resetYaw();
 
+  //Creating an object of Dumper Class
   public final Dumper dumper = new Dumper();
+
   //Creates an object of Xbox controller
-  public final XboxController controller = new XboxController(OI.port);
-  //
+  public final GenericHID controller = new GenericHID(OI.port);
   
   public RobotContainer() {
+    drivetrain.resetYaw();
+    drivetrain.resetEncoders();
+    dumper.resetEncoder();
     setBindings();
   }
 
   private void setBindings() {
+    new JoystickButton(controller, OI.dumperTrigger);
 
+  }
+  private double getStickyValue(GenericHID hid, Axis axis) {
+    return hid.getRawAxis(axis.value);
   }
 
 //Karena said that this is not needed
-  // private void setDefaultCommands() {
-  //   drivetrain.setDefaultCommand(new Drivetrain(
-  //     () -> ProcessedAxisValue(driver, Axis.kLeftY),
-  //     () -> ProcessedAxisValue(driver, Axis.kRightX)));
-  //   //Setting the default command to check inputs of the A button
-  //   //I'm thinking once it's pressed, the load is lifted, but once
-  //   //the button is released, the load is slid down
-  //   dumper.setDefaultCommand(new Dumper(
-  //     () -> getAButtonPressed(),
-  //     () -> getAButtonReleased()));
-  //   // drivetrain.setDefaultCommand(new TeleopDrive(
-  //   //   drivetrain,
-  //   //   () -> ProcessedAxisValue(driverController, Axis.kLeftY)),
-  //   //   () -> ProcessedAxisValue(driverController, Axis.kLeftX)),
-  //   //   () -> ProcessedAxisValue(driverController, Axis.kRightX)),
-  //   //   () -> driverController.getRawButton(OI.Driver.slowDriveButton)
-  //   // ));
-  // }
+private void setDefaultCommands() {
+    drivetrain.setDefaultCommand(new Drivetrain(
+      () -> ProcessedAxisValue(controller, Axis.kLeftY),
+      () -> ProcessedAxisValue(controller, Axis.kRightX)));
+    //Setting the default command to check inputs of the A button
+    //I'm thinking once it's pressed, the load is lifted, but once
+    //the button is released, the load is slid down
+    dumper.setDefaultCommand(new Dumper(
+      () -> getAButtonPressed(),
+      () -> getAButtonReleased()));
+    drivetrain.setDefaultCommand(new TeleopDrive(
+      drivetrain,
+      () -> ProcessedAxisValue(driverController, Axis.kLeftY),
+      () -> ProcessedAxisValue(driverController, Axis.kLeftX),
+      () -> ProcessedAxisValue(driverController, Axis.kRightX),
+      () -> driverController.getRawButton(OI.Driver.slowDriveButton)));
+}
 
   public Command getAutonomousCommand() {
     return Commands.print("No autonomous command configured");

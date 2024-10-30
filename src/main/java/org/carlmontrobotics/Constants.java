@@ -44,11 +44,6 @@ public final class Constants {
         public static final double kD = Dumperc.kD;
     }
     public static final class OI {
-        public static final class Driver {
-            public static final int port = 0;
-        }
-        public static final class Manipulator {
-            public static final int port = 1;
-        }
+        public static final int port = 0;
     }
 }

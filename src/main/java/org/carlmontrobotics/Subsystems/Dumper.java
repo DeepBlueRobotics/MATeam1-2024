@@ -32,6 +32,10 @@ public class Dumper extends SubsystemBase{
     public Dumper() {
         //Intiallize the subsystem
         //You would want to reset the point where the motor reconginzes 0 degrees/0 rotations so it will be easier for dropOff and the other code
+        
+    }
+    
+    public void resetEncoder() {
         dumperMotor.getEncoder().setPosition(0);
     }
 
@@ -86,6 +90,16 @@ public class Dumper extends SubsystemBase{
         //this will cause the motor to stop preventing itself from moving and will easily go down
 
         //have this at the end to reset pID
+        //Holy shit please don't do that with locals ever again
+        double currentAngle = dumperMotor.getEncoder().getPosition()*360;
+        if(currentAngle >= 90) {
+            dumperMotor.set(-0.1*Dumperc.rotation_k);
+        }
+       else {
+            dumperMotor.setIdleMode(IdleMode.kCoast);;
+       }
+
+       //Why are you writing the question? - Daniel Tolchakovs
         timer.stop();
         timer.reset();
         lastTimestamp = 0;
