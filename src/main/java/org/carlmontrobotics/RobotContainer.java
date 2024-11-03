@@ -17,6 +17,7 @@ import edu.wpi.first.wpilibj.XboxController.Axis;
 
 //commands
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.PrintCommand;
@@ -26,32 +27,36 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
-
-import org.carlmontrobotics.Commands.AutoAlignToShelf;
+//commands + subsystems
+import org.carlmontrobotics.Commands.*;
+import org.carlmontrobotics.Subsystems.*;
+//Constants
 import org.carlmontrobotics.Constants.OI;
-import org.carlmontrobotics.Subsystems.Drivetrain;
-import org.carlmontrobotics.Subsystems.Dumper;
 
 public class RobotContainer {
   //Creating an object of DT Class
-  public final Drivetrain drivetrain = new Drivetrain();
+  private final Drivetrain drivetrain = new Drivetrain();
 
   //Creating an object of Dumper Class
-  public final Dumper dumper = new Dumper();
+  private final Dumper dumper = new Dumper();
 
   //Creates an object of Xbox controller
-  public final GenericHID controller = new GenericHID(OI.port);
+  private final GenericHID controller = new GenericHID(OI.port);
   
   public RobotContainer() {
     drivetrain.resetYaw();
     drivetrain.resetEncoders();
     dumper.resetEncoder();
     setBindings();
+    setDefaultCommands();
   }
 
   private void setBindings() {
-    new Trigger(()->Math.abs(getStickValue(controller, OI.dumperTrigger)) > OI.triggerSensitivity).whileTrue(new InstantCommand(()->{dumper.dropOff();}));
-    new Trigger(()->Math.abs(getStickValue(controller, OI.alignTrigger)) > OI.triggerSensitivity).whileTrue(new InstantCommand(()->{AutoAlignToShelf.execute();}));
+    axisTrigger(controller, OI.alignTrigger)
+    .whileTrue(new AutoAlignToShelf(drivetrain));
+    axisTrigger(controller, OI.dumperTrigger)
+    .whileTrue(new InstantCommand(() -> dumper.dropOff()))
+    .whileFalse(new InstantCommand(() -> dumper.rest()));
 
   }
   private double getStickyValue(GenericHID hid, Axis axis) {
@@ -60,21 +65,9 @@ public class RobotContainer {
 
 //Karena said that this is not needed
 private void setDefaultCommands() {
-    drivetrain.setDefaultCommand(new Drivetrain(
-      () -> ProcessedAxisValue(controller, Axis.kLeftY),
-      () -> ProcessedAxisValue(controller, Axis.kRightX)));
-    //Setting the default command to check inputs of the A button
-    //I'm thinking once it's pressed, the load is lifted, but once
-    //the button is released, the load is slid down
-    dumper.setDefaultCommand(new Dumper(
-      () -> getAButtonPressed(),
-      () -> getAButtonReleased()));
-    drivetrain.setDefaultCommand(new TeleopDrive(
-      drivetrain,
-      () -> ProcessedAxisValue(driverController, Axis.kLeftY),
-      () -> ProcessedAxisValue(driverController, Axis.kLeftX),
-      () -> ProcessedAxisValue(driverController, Axis.kRightX),
-      () -> driverController.getRawButton(OI.Driver.slowDriveButton)));
+    drivetrain.setDefaultCommand(new TeleopDrive(drivetrain,
+      () -> ProcessedAxisValue(controller, Axis.kLeftY), //direction
+      () -> ProcessedAxisValue(controller, Axis.kRightX))); //rotation
 }
 
   public Command getAutonomousCommand() {
@@ -114,6 +107,10 @@ private void setDefaultCommands() {
    */
   private double ProcessedAxisValue(GenericHID hid, Axis axis){
     return inputProcessing(getStickValue(hid, axis));
+  }
+//returns a trigger object that is True or False based on if the value of the axis is greater than the minimum to respond
+  private Trigger axisTrigger(GenericHID controller, Axis axis) {
+    return new Trigger(() -> Math.abs(getStickValue(controller, axis)) > OI.MIN_AXIS_TRIGGER_VALUE);
   }
 
 }
