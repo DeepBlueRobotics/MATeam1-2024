@@ -108,7 +108,7 @@ public class Drivetrain extends SubsystemBase{
     }
     //makes sure that the robot won't run away while the dumper is off balance
     private boolean checkBalance() {
-        if (dumper.softStop) {
+        if (dumper.softStop()) {
             return true;
         }
         else {
