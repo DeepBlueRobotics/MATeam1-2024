@@ -1,5 +1,8 @@
 package org.carlmontrobotics;
 
+import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.XboxController.Axis;
+
 public final class Constants {
     public static final class Drivetrainc {
         public static final int left_motor_id = 0;
@@ -45,5 +48,11 @@ public final class Constants {
     }
     public static final class OI {
         public static final int port = 0;
+        public static final Axis dumperTrigger = Axis.kRightTrigger;
+        public static final Axis alignTrigger = Axis.kLeftTrigger;
+        public static final double MIN_AXIS_TRIGGER_VALUE = 0.2;
+    }
+    public static final class AutoAlignToShelfc {
+        public static final double rotationalSpeed = 0.5;
     }
 }
