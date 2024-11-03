@@ -10,14 +10,13 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.PS4Controller.Axis;
 import edu.wpi.first.wpilibj2.command.Command;
 
-//NavX 
-import com.kauailabs.navx.frc.AHRS;
-import edu.wpi.first.wpilibj.SPI;
+
+import org.carlmontrobotics.Constants.AutoAlignToShelfc;
 
 public class AutoAlignToShelf extends Command {
     private final Drivetrain drivetrain;
 
-    public AutoAlignToShelf() {
+    public AutoAlignToShelf(Drivetrain drivetrain) {
         addRequirements(this.drivetrain = drivetrain);
     }
 
@@ -30,7 +29,13 @@ public class AutoAlignToShelf extends Command {
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
-
+        double currentAngle = drivetrain.getYaw();
+        if (currentAngle >= 180) {
+            drivetrain.arcadeDrive(0, AutoAlignToShelfc.rotationalSpeed);
+        }
+        else {
+            drivetrain.arcadeDrive(0, -AutoAlignToShelfc.rotationalSpeed);
+        }
     }
 
     // Called once the command ends or is interrupted.
