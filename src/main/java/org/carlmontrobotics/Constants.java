@@ -38,9 +38,9 @@ public final class Constants {
     public static final class HitAndRunAutonc {
         //from the center of the robot
         //FIND THESE OUT
-        public static final double min_d = 0;//inches
-        public static final double max_d = 0;//inches
-        public static final double robot_length = 0;//inches
+        public static final double min_d = 54;//inches
+        public static final double robot_length = 18;//inches
+        public static final double max_d = 96-robot_length; //inches
         public static final double drop_off_wait_time = 2.0; //seconds
         public static final double kP = Dumperc.kP;
         public static final double kI = Dumperc.kI;
