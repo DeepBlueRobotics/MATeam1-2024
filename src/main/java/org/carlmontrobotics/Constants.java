@@ -15,10 +15,10 @@ public final class Constants {
         public static final int motor1_rotation_k = 1;
         public static final int motor2_rotation_k = -1;
         //Find out the values
-        //public static final double wheel_diameter = //inches
-        //public static final double wheel_radius = //inches
+        public static final double wheel_diameter = 0;//inches
+        public static final double wheel_radius = 0;//inches
         //d_wheels stands for distance between the wheels(dominant)
-        //public static final double d_wheels = //inches
+        public static final double d_wheels = 0;//inches
     }
     public static final class Dumperc {
         public static final int dumper_id = 2;
