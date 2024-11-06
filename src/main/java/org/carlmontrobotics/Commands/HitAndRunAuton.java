@@ -6,6 +6,7 @@ import java.util.function.DoubleSupplier;
 import org.carlmontrobotics.Subsystems.Drivetrain;
 import org.carlmontrobotics.Subsystems.Dumper;
 
+import com.revrobotics.SparkPIDController;
 
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.PS4Controller.Axis;
@@ -24,11 +25,10 @@ public class HitAndRunAuton extends Command{
     Timer timer = new Timer();
     boolean cube_scored = false;
     double time_dropped_off;
-    double lastTimestamp = 0;
-    double accumulatedError = 0; // for the kI term
-    double previousError = 0; // for the kD term
-    double target = (HitAndRunAutonc.min_d+HitAndRunAutonc.max_d)/2;
     double currentPos;
+    double lastTimestamp;
+    
+    
 
     public HitAndRunAuton(Drivetrain drivetrain, Dumper dumper) {
         addRequirements(this.drivetrain = drivetrain, this.dumper = dumper);
@@ -53,7 +53,7 @@ public class HitAndRunAuton extends Command{
                     drivetrain.brakeMotor();
                 }
                 else {
-                    drivetrain.arcadeDrive(calculate(currentPos, target, HitAndRunAutonc.kP, HitAndRunAutonc.kI, HitAndRunAutonc.kD), 0);
+                    drivetrain.pidDrive(HitAndRunAutonc.averageDistance);
                 }
             }
         }
@@ -67,22 +67,6 @@ public class HitAndRunAuton extends Command{
                 dumper.dropOff();
             }
         }
-    }
-
-    /* calculates the output of the PID controller given the error (input) */
-    private double calculate(double currentPosition, double targetPosition, double kP, double kI, double kD) {
-        double error = targetPosition - currentPosition;
-        double currentTimestamp = timer.get();
-        // amount of time that passed since the last time the controller was run
-        double deltaTime = currentTimestamp - lastTimestamp;
-        accumulatedError += kI * error * deltaTime;
-        double derivative = (error - previousError) / deltaTime;
-
-        // update values for next time this method is called
-        lastTimestamp = currentTimestamp;
-        previousError = error;
-
-        return kP * error + accumulatedError + kD * derivative;
     }
 
 

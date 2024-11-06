@@ -5,8 +5,11 @@ import java.util.function.DoubleSupplier;
 import org.carlmontrobotics.lib199.MotorConfig;
 import org.carlmontrobotics.lib199.MotorControllerFactory;
 
+import com.revrobotics.CANSparkBase.ControlType;
 import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.RelativeEncoder;
+import com.revrobotics.SparkPIDController;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -29,8 +32,14 @@ public class Drivetrain extends SubsystemBase{
     CANSparkMax motor2 = MotorControllerFactory.createSparkMax(Drivetrainc.right_motor_id,MotorConfig.NEO);
     double YAxis, XAxis;
     private AHRS navx;
-    private final static double pi = Math.PI;
     private final Dumper dumper = new Dumper();
+    SparkPIDController pid1 = motor1.getPIDController();
+    SparkPIDController pid2 = motor2.getPIDController();
+    RelativeEncoder encoder1 = motor1.getEncoder();
+    RelativeEncoder encoder2 = motor2.getEncoder();
+    double starting_rotation1;
+    double starting_rotation2;
+    double rotationTarget;
 
     //_init_ navx/gyro
     public Drivetrain() {
@@ -39,6 +48,12 @@ public class Drivetrain extends SubsystemBase{
         } catch (RuntimeException ex) {
             System.out.println("Error instantiating navX: " + ex.getMessage());
         }
+        pid1.setP(Drivetrainc.kP);
+        pid1.setI(Drivetrainc.kI);
+        pid1.setD(Drivetrainc.kD);
+        pid2.setP(Drivetrainc.kP);
+        pid2.setI(Drivetrainc.kI);
+        pid2.setD(Drivetrainc.kD);
     }
 
     //Arcade Drive method, inputs are left y axis for forward and backward and a right x axis for rotional movement
@@ -49,6 +64,11 @@ public class Drivetrain extends SubsystemBase{
             motor2.set(motorInputs[1]*Drivetrainc.motor2_rotation_k);
         }
         
+    }
+    public void pidDrive(double target) {
+        rotationTarget = target*Drivetrainc.kDis_Rot;
+        pid1.setReference(rotationTarget, ControlType.kPosition);
+        pid2.setReference(rotationTarget, ControlType.kPosition);
     }
     //it stops the drivetrain (aka a brake)
     public void brakeMotor() {
@@ -95,14 +115,14 @@ public class Drivetrain extends SubsystemBase{
     //resets the encoders
     public void resetEncoders() {
         //set both encoders to 0;
-        motor1.getEncoder().setPosition(0);
-        motor2.getEncoder().setPosition(0);
+        starting_rotation1 = encoder1.getPosition();
+        starting_rotation2 = encoder2.getPosition();
     }
 
     //finds distance that drivetrain/robot has traveled
     public double getDistance() {
-        double average_rotation = (motor1.getEncoder().getPosition()+motor2.getEncoder().getPosition())/2;
-        return average_rotation*pi*Drivetrainc.wheel_diameter;
+        double average_rotation = (encoder1.getPosition()+encoder2.getPosition())/2;
+        return average_rotation/Drivetrainc.kDis_Rot;
     }
     //makes sure that the robot won't run away while the dumper is off balance
     private boolean checkBalance() {
