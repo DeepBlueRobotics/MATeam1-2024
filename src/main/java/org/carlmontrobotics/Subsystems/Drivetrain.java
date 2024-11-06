@@ -21,6 +21,8 @@ import edu.wpi.first.wpilibj2.command.Command;
 
 //NavX
 import com.kauailabs.navx.frc.AHRS;
+
+import edu.wpi.first.networktables.PubSub;
 import edu.wpi.first.wpilibj.SPI;
 
 //Constants
@@ -30,7 +32,6 @@ public class Drivetrain extends SubsystemBase{
     //new Drivetrainc constants = Drivetrainc
     CANSparkMax motor1 = MotorControllerFactory.createSparkMax(Drivetrainc.left_motor_id,MotorConfig.NEO);
     CANSparkMax motor2 = MotorControllerFactory.createSparkMax(Drivetrainc.right_motor_id,MotorConfig.NEO);
-    double YAxis, XAxis;
     private AHRS navx;
     private final Dumper dumper = new Dumper();
     SparkPIDController pid1 = motor1.getPIDController();
@@ -48,6 +49,7 @@ public class Drivetrain extends SubsystemBase{
         } catch (RuntimeException ex) {
             System.out.println("Error instantiating navX: " + ex.getMessage());
         }
+        //set up PID
         pid1.setP(Drivetrainc.kP);
         pid1.setI(Drivetrainc.kI);
         pid1.setD(Drivetrainc.kD);
@@ -59,12 +61,28 @@ public class Drivetrain extends SubsystemBase{
     //Arcade Drive method, inputs are left y axis for forward and backward and a right x axis for rotional movement
     public void arcadeDrive(double left, double right) {
         if (checkBalance()) {
-            double[] motorInputs = jIP(YAxis, XAxis);
+            double[] motorInputs = jIP(left, right);
             motor1.set(motorInputs[0]*Drivetrainc.motor1_rotation_k);
             motor2.set(motorInputs[1]*Drivetrainc.motor2_rotation_k);
         }
-        
     }
+    //Reversed arcade method, inputs are left x axis for rotation, right y axis for movement
+    public void reversedArcadeDrive(double left, double right) {
+        if (checkBalance()) {
+            double[] motorInputs = jIP(right, left);
+            motor1.set(motorInputs[0]*Drivetrainc.motor1_rotation_k);
+            motor2.set(motorInputs[1]*Drivetrainc.motor2_rotation_k);
+        }
+    }
+    //Tank drive method left joystick moves left motor, right joystick moves right motor
+    public void tankDrive(double left, double right) {
+        if (checkBalance()) {
+            motor1.set(left);
+            motor2.set(right);
+        }
+    }
+        
+    //PID drive
     public void pidDrive(double target) {
         rotationTarget = target*Drivetrainc.kDis_Rot;
         pid1.setReference(rotationTarget, ControlType.kPosition);
@@ -79,9 +97,7 @@ public class Drivetrain extends SubsystemBase{
 
     //Turns inputs from the joysticks into inputs for motors, 
     //might have 1.5 and even 2 but aaron said that is still a one and the result will still be relaible
-    private double [] jIP(double left, double right) {
-        double yAxis = left;
-        double xAxis = right;
+    private double [] jIP(double yAxis, double xAxis) {
         double[] posYArr = {yAxis+xAxis, yAxis-xAxis};
         double[] negYArr = {yAxis-xAxis, yAxis+xAxis};
         if (yAxis==0) {
