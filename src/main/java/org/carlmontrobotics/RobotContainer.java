@@ -63,11 +63,18 @@ public class RobotContainer {
     return hid.getRawAxis(axis.value);
   }
 
-//Karena said that this is not needed
+
 private void setDefaultCommands() {
     drivetrain.setDefaultCommand(new TeleopDrive(drivetrain,
+      //Arcade Drive
       () -> ProcessedAxisValue(controller, Axis.kLeftY), //direction
-      () -> ProcessedAxisValue(controller, Axis.kRightX))); //rotation
+      () -> ProcessedAxisValue(controller, Axis.kRightX), //rotation
+      //Reversed Arcade Drive
+      () -> ProcessedAxisValue(controller, Axis.kRightY), //direction
+      () -> ProcessedAxisValue(controller, Axis.kLeftX), //rotation
+      //Tank Drive
+      () -> ProcessedAxisValue(controller, Axis.kLeftY), //left motor direction
+      () -> ProcessedAxisValue(controller, Axis.kRightY))); //right motor direction
 }
 
   public Command getAutonomousCommand() {
