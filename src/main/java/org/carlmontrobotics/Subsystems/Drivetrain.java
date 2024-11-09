@@ -38,8 +38,6 @@ public class Drivetrain extends SubsystemBase{
     SparkPIDController pid2 = motor2.getPIDController();
     RelativeEncoder encoder1 = motor1.getEncoder();
     RelativeEncoder encoder2 = motor2.getEncoder();
-    double starting_rotation1;
-    double starting_rotation2;
     double rotationTarget;
 
     //_init_ navx/gyro
@@ -131,8 +129,8 @@ public class Drivetrain extends SubsystemBase{
     //resets the encoders
     public void resetEncoders() {
         //set both encoders to 0;
-        starting_rotation1 = encoder1.getPosition();
-        starting_rotation2 = encoder2.getPosition();
+        encoder1.setPosition(0);
+        encoder2.setPosition(0);
     }
 
     //finds distance that drivetrain/robot has traveled

@@ -29,9 +29,7 @@ public class Dumper extends SubsystemBase{
     CANSparkMax dumperMotor = MotorControllerFactory.createSparkMax(Dumperc.dumper_id, MotorConfig.NEO);
     SparkPIDController pid = dumperMotor.getPIDController();
     RelativeEncoder dumperEncoder = dumperMotor.getEncoder();
-    double rest_position = dumperEncoder.getPosition();
-    double horizontal_angle = rest_position*360+Dumperc.angle_off_horizontal;
-    double target = Dumperc.drop_off_angle/360 - rest_position;
+    double target;
 
     public Dumper() {
         //Intiallize the subsystem
@@ -39,6 +37,7 @@ public class Dumper extends SubsystemBase{
         pid.setP(Dumperc.kP);
         pid.setI(Dumperc.kI);
         pid.setD(Dumperc.kD);
+        resetEncoder();
         
     }
     
@@ -80,7 +79,7 @@ public class Dumper extends SubsystemBase{
          */
         //The postition is in degrees
         double currentAngle = dumperEncoder.getPosition()*360;
-        if (currentAngle-horizontal_angle >= Dumperc.drop_off_angle) {
+        if (currentAngle-Dumperc.angle_off_horizontal >= Dumperc.drop_off_angle) {
             return true;
         }
         else {
@@ -98,7 +97,7 @@ public class Dumper extends SubsystemBase{
         //have this at the end to reset pID
         //Holy shit please don't do that with locals ever again
         double currentAngle = dumperEncoder.getPosition()*360;
-        if(currentAngle-horizontal_angle >= 90) {
+        if(currentAngle-Dumperc.angle_off_horizontal >= 90) {
             dumperMotor.set(-0.1*Dumperc.rotation_k);
         }
        else {
@@ -116,7 +115,7 @@ public class Dumper extends SubsystemBase{
          don't worry about it being very close, that is why it is a soft stop
          */
         double currentAngle = dumperEncoder.getPosition()*360;
-        if (currentAngle-horizontal_angle < Dumperc.soft_stop_degrees) {
+        if (currentAngle-Dumperc.angle_off_horizontal < Dumperc.soft_stop_degrees) {
             return true;
         }
         else {
