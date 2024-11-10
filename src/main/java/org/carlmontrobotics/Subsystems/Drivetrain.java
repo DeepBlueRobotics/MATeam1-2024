@@ -57,26 +57,26 @@ public class Drivetrain extends SubsystemBase{
     }
 
     //Arcade Drive method, inputs are left y axis for forward and backward and a right x axis for rotional movement
-    public void arcadeDrive(double left, double right) {
+    public void arcadeDrive(double leftY, double rightX) {
         if (checkBalance()) {
-            double[] motorInputs = jIP(left, right);
+            double[] motorInputs = jIP(leftY, rightX);
             motor1.set(motorInputs[0]*Drivetrainc.motor1_rotation_k);
             motor2.set(motorInputs[1]*Drivetrainc.motor2_rotation_k);
         }
     }
     //Reversed arcade method, inputs are left x axis for rotation, right y axis for movement
-    public void reversedArcadeDrive(double left, double right) {
+    public void reversedArcadeDrive(double leftX, double rightY) {
         if (checkBalance()) {
-            double[] motorInputs = jIP(right, left);
+            double[] motorInputs = jIP(rightY, leftX);
             motor1.set(motorInputs[0]*Drivetrainc.motor1_rotation_k);
             motor2.set(motorInputs[1]*Drivetrainc.motor2_rotation_k);
         }
     }
     //Tank drive method left joystick moves left motor, right joystick moves right motor
-    public void tankDrive(double left, double right) {
+    public void tankDrive(double leftY, double rightY) {
         if (checkBalance()) {
-            motor1.set(left);
-            motor2.set(right);
+            motor1.set(leftY);
+            motor2.set(rightY);
         }
     }
         
