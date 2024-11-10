@@ -29,7 +29,7 @@ import edu.wpi.first.wpilibj.SPI;
 import org.carlmontrobotics.Constants.Drivetrainc;
 
 public class Drivetrain extends SubsystemBase{
-    //new Drivetrainc constants = Drivetrainc
+    //Define this section
     CANSparkMax motor1 = MotorControllerFactory.createSparkMax(Drivetrainc.left_motor_id,MotorConfig.NEO);
     CANSparkMax motor2 = MotorControllerFactory.createSparkMax(Drivetrainc.right_motor_id,MotorConfig.NEO);
     private AHRS navx;
@@ -40,14 +40,15 @@ public class Drivetrain extends SubsystemBase{
     RelativeEncoder encoder2 = motor2.getEncoder();
     double rotationTarget;
 
-    //_init_ navx/gyro
+    
     public Drivetrain() {
+        //Define this section
         try {
-            navx = new AHRS(SPI.Port.kMXP);  // Initialize NavX
+            navx = new AHRS(SPI.Port.kMXP);  // What does this do?
         } catch (RuntimeException ex) {
             System.out.println("Error instantiating navX: " + ex.getMessage());
         }
-        //set up PID
+        //Define this section
         pid1.setP(Drivetrainc.kP);
         pid1.setI(Drivetrainc.kI);
         pid1.setD(Drivetrainc.kD);
@@ -56,45 +57,44 @@ public class Drivetrain extends SubsystemBase{
         pid2.setD(Drivetrainc.kD);
     }
 
-    //Arcade Drive method, inputs are left y axis for forward and backward and a right x axis for rotional movement
-    public void arcadeDrive(double left, double right) {
+    //Define this method
+    public void arcadeDrive(double leftY, double rightX) {
         if (checkBalance()) {
-            double[] motorInputs = jIP(left, right);
+            double[] motorInputs = jIP(leftY, rightX);
             motor1.set(motorInputs[0]*Drivetrainc.motor1_rotation_k);
             motor2.set(motorInputs[1]*Drivetrainc.motor2_rotation_k);
         }
     }
-    //Reversed arcade method, inputs are left x axis for rotation, right y axis for movement
-    public void reversedArcadeDrive(double left, double right) {
+    //define this method
+    public void reversedArcadeDrive(double leftX, double rightY) {
         if (checkBalance()) {
-            double[] motorInputs = jIP(right, left);
+            double[] motorInputs = jIP(rightY, leftX);
             motor1.set(motorInputs[0]*Drivetrainc.motor1_rotation_k);
             motor2.set(motorInputs[1]*Drivetrainc.motor2_rotation_k);
         }
     }
-    //Tank drive method left joystick moves left motor, right joystick moves right motor
-    public void tankDrive(double left, double right) {
+    //Define this method
+    public void tankDrive(double leftY, double rightY) {
         if (checkBalance()) {
-            motor1.set(left);
-            motor2.set(right);
+            motor1.set(leftY);
+            motor2.set(rightY);
         }
     }
         
-    //PID drive
+    //Define this method
     public void pidDrive(double target) {
         rotationTarget = target*Drivetrainc.kDis_Rot;
         pid1.setReference(rotationTarget, ControlType.kPosition);
         pid2.setReference(rotationTarget, ControlType.kPosition);
     }
-    //it stops the drivetrain (aka a brake)
+    //Define this method
     public void brakeMotor() {
         motor1.set(0);
         motor2.set(0);
     }
     
 
-    //Turns inputs from the joysticks into inputs for motors, 
-    //might have 1.5 and even 2 but aaron said that is still a one and the result will still be relaible
+    //Define this method
     private double [] jIP(double yAxis, double xAxis) {
         double[] posYArr = {yAxis+xAxis, yAxis-xAxis};
         double[] negYArr = {yAxis-xAxis, yAxis+xAxis};
@@ -116,29 +116,29 @@ public class Drivetrain extends SubsystemBase{
         return empty;
     }
 
-    //Method to get current rotation angle
+    //Define this method
     public double getYaw() {
-        return navx.getYaw(); // Yaw angle in degrees [-180,180]
+        return navx.getYaw(); // What does getYaw give?
     }
 
-    //Method to reset gyro
+    //Define this method
     public void resetYaw() {
         navx.reset();
     }
 
-    //resets the encoders
+    //Define this method
     public void resetEncoders() {
-        //set both encoders to 0;
         encoder1.setPosition(0);
         encoder2.setPosition(0);
     }
 
-    //finds distance that drivetrain/robot has traveled
+    //Define this method
     public double getDistance() {
         double average_rotation = (encoder1.getPosition()+encoder2.getPosition())/2;
         return average_rotation/Drivetrainc.kDis_Rot;
     }
-    //makes sure that the robot won't run away while the dumper is off balance
+    
+    //Define this method
     private boolean checkBalance() {
         if (dumper.softStop()) {
             return true;

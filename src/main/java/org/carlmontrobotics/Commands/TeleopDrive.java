@@ -22,12 +22,12 @@ public class TeleopDrive extends Command {
     private DoubleSupplier leftTank;
     private DoubleSupplier rightTank;
 
-    /** Creates a new AimOuttakeSpeaker. */
+    ////Define this method
     public TeleopDrive(Drivetrain drivetrain, 
     DoubleSupplier forwardArcade, DoubleSupplier rotateArcade, 
     DoubleSupplier forwardReversedArcade, DoubleSupplier rotateReversedArcade,
     DoubleSupplier leftTank, DoubleSupplier rightTank) {
-        // Use addRequirements() here to declare subsystem dependencies.
+        // What does this part do?
         addRequirements(this.drivetrain = drivetrain);
         this.forwardArcade = forwardArcade;
         this.rotateArcade = rotateArcade;
@@ -46,7 +46,7 @@ public class TeleopDrive extends Command {
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
-        //ignore the dead code, it is not dead as it is designed for easy change in the way how to operate the drivetrain
+        //Why are there conditional statements? What do they do?
         if (TeleopC.driveType == 0) {
             Arcade();
         }
@@ -58,19 +58,19 @@ public class TeleopDrive extends Command {
         }
     }
 
-    //Moves drivetrain using Arcade
+    //Define this method
     private void Arcade() {
         double yAxis = forwardArcade.getAsDouble();
         double xAxis = rotateArcade.getAsDouble();
         drivetrain.arcadeDrive(yAxis, xAxis);
     }
-    //Moves drivetrain using Reverse arcade
+    //Define this method
     private void ReversedArcade() {
         double yAxis = forwardReversedArcade.getAsDouble();
         double xAxis = rotateReversedArcade.getAsDouble();
         drivetrain.reversedArcadeDrive(xAxis, yAxis);
     }
-    //Moves drivetrain using tank drive
+    //Define this method
     private void Tank() {
         double left = leftTank.getAsDouble();
         double right = rightTank.getAsDouble();
