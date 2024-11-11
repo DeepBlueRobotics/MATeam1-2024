@@ -13,8 +13,8 @@ public final class Constants {
         public static final double kI = 0.1;
         public static final double kD = 0.1;
         
-        public static final int motor1_rotation_k = 1;
-        public static final int motor2_rotation_k = -1;
+        public static final double motor1_rotation_k = 0.25;
+        public static final double motor2_rotation_k = -0.25;
         //Find out the values
         public static final double wheel_diameter = 0;//inches
         public static final double wheel_radius = 0;//inches
