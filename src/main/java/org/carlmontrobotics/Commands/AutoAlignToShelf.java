@@ -29,10 +29,10 @@ public class AutoAlignToShelf extends Command {
     @Override
     public void execute() {
         double currentAngle = drivetrain.getYaw();
-        if (currentAngle > 0) {
+        if (currentAngle > AutoAlignToShelfc.goodAngle) {
             drivetrain.arcadeDrive(0, AutoAlignToShelfc.rotationalSpeed);
         }
-        else if (currentAngle < 0) {
+        else if (currentAngle < -AutoAlignToShelfc.goodAngle) {
             drivetrain.arcadeDrive(0, -AutoAlignToShelfc.rotationalSpeed);
         }
     }

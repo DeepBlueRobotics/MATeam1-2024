@@ -55,6 +55,7 @@ public final class Constants {
     }
     public static final class AutoAlignToShelfc {
         public static final double rotationalSpeed = 0.5;
+        public static final double goodAngle = 5; //degees
     }
     public static final class TeleopC {
         // 0->ARCADE 1->REVERSEDARCADE 2-> TANK
