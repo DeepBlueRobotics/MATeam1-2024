@@ -25,25 +25,28 @@ import edu.wpi.first.wpilibj.Timer;
 import org.carlmontrobotics.Constants.Dumperc;
 
 public class Dumper extends SubsystemBase{
-    //Define this section
+    //The initialization of dumperMotor defines which motor is being used to control the position of the dumper.
+    //The pid variable gets the PID controller for the dumper motor.
+    //dumperEncoder is the motor used with dumperMotor. It's used for examining the degree rotation.
+    //target is a variable that is not initialized.
     CANSparkMax dumperMotor = MotorControllerFactory.createSparkMax(Dumperc.dumper_id, MotorConfig.NEO);
     SparkPIDController pid = dumperMotor.getPIDController();
     RelativeEncoder dumperEncoder = dumperMotor.getEncoder();
     double target;
 
     public Dumper() {
-        //Define this section
+        //Here we set PID constants and reset the pid encoder.
         pid.setP(Dumperc.kP);
         pid.setI(Dumperc.kI);
         pid.setD(Dumperc.kD);
         resetEncoder();
         
     }
-    //Define this method
+    //Resets the degree position of the dumperMotor's encoder to 0 degrees moved;
     public void resetEncoder() {
         dumperMotor.getEncoder().setPosition(0);
     }
-    //Define this method
+    //Drops off the load
     public void dropOff() {
         if (softStop()) {
             if (achievedDropOff()) {
@@ -60,7 +63,7 @@ public class Dumper extends SubsystemBase{
             dumperMotor.setIdleMode(IdleMode.kBrake);
         }
     }
-    ////Define this method
+    //Returns a boolean (true or false) to determine whether a dropOff was completed
     public boolean achievedDropOff() {
         double currentAngle = dumperEncoder.getPosition()*360;
         if (currentAngle-Dumperc.angle_off_horizontal >= Dumperc.drop_off_angle) {
@@ -71,7 +74,7 @@ public class Dumper extends SubsystemBase{
         }
         
     }
-    ////Define this method
+    //Motor is set to rest
     public void rest() {
         double currentAngle = dumperEncoder.getPosition()*360;
         if(currentAngle-Dumperc.angle_off_horizontal >= 90) {
@@ -82,7 +85,7 @@ public class Dumper extends SubsystemBase{
        }
         
     }
-    //Define this method
+    //softStops, where the motor is allowed to be affected by gravity
     public boolean softStop() {
         double currentAngle = dumperEncoder.getPosition()*360;
         if (currentAngle-Dumperc.angle_off_horizontal < Dumperc.soft_stop_degrees) {
