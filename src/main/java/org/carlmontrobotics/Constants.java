@@ -6,15 +6,15 @@ import edu.wpi.first.wpilibj.XboxController.Axis;
 public final class Constants {
     public static final class Drivetrainc {
         private final static double pi = Math.PI;
-        public static final int left_motor_id = 0;
-        public static final int right_motor_id = 1;
+        public static final int left_motor_id = 14;
+        public static final int right_motor_id = 17;
         //Reqires tuning and testing
         public static final double kP = 0.1;
         public static final double kI = 0.1;
         public static final double kD = 0.1;
         
-        public static final int motor1_rotation_k = 1;
-        public static final int motor2_rotation_k = -1;
+        public static final double motor1_rotation_k = -0.25;
+        public static final double motor2_rotation_k = 0.25;
         //Find out the values
         public static final double wheel_diameter = 0;//inches
         public static final double wheel_radius = 0;//inches
@@ -58,6 +58,6 @@ public final class Constants {
     }
     public static final class TeleopC {
         // 0->ARCADE 1->REVERSEDARCADE 2-> TANK
-        public static final int driveType = 0;
+        public static final int driveType = 1;
     }
 }
