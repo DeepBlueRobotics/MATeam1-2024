@@ -42,7 +42,7 @@ public class Dumper extends SubsystemBase{
     }
     
     public void resetEncoder() {
-        dumperMotor.getEncoder().setPosition(0);
+        dumperEncoder.setPosition(0);
     }
 
     public void dropOff() {
