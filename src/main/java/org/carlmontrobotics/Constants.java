@@ -15,6 +15,10 @@ public final class Constants {
         
         public static final double motor1_rotation_k = 0.25;
         public static final double motor2_rotation_k = -0.25;
+=======
+        public static final double motor1_rotation_k = -0.25;
+        public static final double motor2_rotation_k = 0.25;
+>>>>>>> 8e02b318552f0c6727777a6f522f76a2b818e603
         //Find out the values
         public static final double wheel_diameter = 0;//inches
         public static final double wheel_radius = 0;//inches
