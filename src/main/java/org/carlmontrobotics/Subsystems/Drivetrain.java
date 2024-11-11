@@ -75,8 +75,8 @@ public class Drivetrain extends SubsystemBase{
     //Tank drive method left joystick moves left motor, right joystick moves right motor
     public void tankDrive(double leftY, double rightY) {
         if (checkBalance()) {
-            motor1.set(leftY);
-            motor2.set(rightY);
+            motor1.set(leftY*Drivetrainc.motor1_rotation_k);
+            motor2.set(rightY*Drivetrainc.motor2_rotation_k);
         }
     }
         
