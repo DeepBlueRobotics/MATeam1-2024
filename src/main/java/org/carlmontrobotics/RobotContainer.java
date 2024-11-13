@@ -57,6 +57,10 @@ public class RobotContainer {
     axisTrigger(controller, OI.dumperTrigger)
     .whileTrue(new InstantCommand(() -> dumper.dropOff()))
     .whileFalse(new InstantCommand(() -> dumper.rest()));
+            controller.getRawButton(OI.X) && controller.getRawButton(OI.B));
+    bothButtonsPressed.onTrue(new InstantCommand(()-> drivetrain.madness()));
+    new Trigger(() -> controller.getRawButton(OI.leftBumper)).onTrue(new InstantCommand(() -> drivetrain.slow()));
+    new Trigger(() -> controller.getRawButton(OI.rightBumper)).onTrue(new InstantCommand(() -> drivetrain.turbo()));
 
   }
   private double getStickyValue(GenericHID hid, Axis axis) {

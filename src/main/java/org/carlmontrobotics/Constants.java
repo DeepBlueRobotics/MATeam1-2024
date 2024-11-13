@@ -13,8 +13,10 @@ public final class Constants {
         public static final double kI = 0.1;
         public static final double kD = 0.1;
         
-        public static final double motor1_rotation_k = -0.25;
-        public static final double motor2_rotation_k = 0.25;
+        public static final double motor1_rotation_k_slow = -0.3;
+        public static final double motor2_rotation_k_slow = -motor1_rotation_k_slow;
+        public static final double motor1_rotation_k_turbo = -0.5;
+        public static final double motor2_rotation_k_turbo = -motor1_rotation_k_turbo;
         //Find out the values
         public static final double wheel_diameter = 0;//inches
         public static final double wheel_radius = 0;//inches
@@ -52,6 +54,12 @@ public final class Constants {
         public static final Axis dumperTrigger = Axis.kRightTrigger;
         public static final Axis alignTrigger = Axis.kLeftTrigger;
         public static final double MIN_AXIS_TRIGGER_VALUE = 0.2;
+        public static final int A = 1;
+	    public static final int B = 2;
+	    public static final int X = 3;
+	    public static final int Y = 4;
+        public static final int leftBumper = 5;
+        public static final int rightBumper = 6;
     }
     public static final class AutoAlignToShelfc {
         public static final double rotationalSpeed = 0.5;

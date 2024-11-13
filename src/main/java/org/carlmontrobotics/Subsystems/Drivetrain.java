@@ -39,6 +39,8 @@ public class Drivetrain extends SubsystemBase{
     RelativeEncoder encoder1 = motor1.getEncoder();
     RelativeEncoder encoder2 = motor2.getEncoder();
     double rotationTarget;
+    double motor1_rotation_k = Drivetrainc.motor1_rotation_k_slow;
+    double motor2_rotation_k = Drivetrainc.motor2_rotation_k_slow;
 
     //_init_ navx/gyro
     public Drivetrain() {
@@ -60,23 +62,23 @@ public class Drivetrain extends SubsystemBase{
     public void arcadeDrive(double leftY, double rightX) {
         if (checkBalance()) {
             double[] motorInputs = jIP(leftY, rightX);
-            motor1.set(motorInputs[0]*Drivetrainc.motor1_rotation_k);
-            motor2.set(motorInputs[1]*Drivetrainc.motor2_rotation_k);
+            motor1.set(motorInputs[0]*motor1_rotation_k);
+            motor2.set(motorInputs[1]*motor2_rotation_k);
         }
     }
     //Reversed arcade method, inputs are left x axis for rotation, right y axis for movement
     public void reversedArcadeDrive(double leftX, double rightY) {
         if (checkBalance()) {
             double[] motorInputs = jIP(rightY, leftX);
-            motor1.set(motorInputs[0]*Drivetrainc.motor1_rotation_k);
-            motor2.set(motorInputs[1]*Drivetrainc.motor2_rotation_k);
+            motor1.set(motorInputs[0]*motor1_rotation_k);
+            motor2.set(motorInputs[1]*motor2_rotation_k);
         }
     }
     //Tank drive method left joystick moves left motor, right joystick moves right motor
     public void tankDrive(double leftY, double rightY) {
         if (checkBalance()) {
-            motor1.set(leftY*Drivetrainc.motor1_rotation_k);
-            motor2.set(rightY*Drivetrainc.motor2_rotation_k);
+            motor1.set(leftY*motor1_rotation_k);
+            motor2.set(rightY*motor2_rotation_k);
         }
     }
         
@@ -96,8 +98,8 @@ public class Drivetrain extends SubsystemBase{
     //Turns inputs from the joysticks into inputs for motors, 
     //might have 1.5 and even 2 but aaron said that is still a one and the result will still be relaible
     private double [] jIP(double yAxis, double xAxis) {
-        double[] posYArr = {yAxis+xAxis, yAxis-xAxis};
-        double[] negYArr = {yAxis-xAxis, yAxis+xAxis};
+        double[] posYArr = {yAxis+xAxis/2, yAxis-xAxis/2};
+        double[] negYArr = {yAxis-xAxis/2, yAxis+xAxis/2};
         if (yAxis==0) {
             double[] arr= {xAxis, -xAxis};
             return arr;
@@ -147,4 +149,20 @@ public class Drivetrain extends SubsystemBase{
             return false;
         }
     }
+    public void madness() {
+        motor1_rotation_k = -1;
+        motor2_rotation_k = 1;
+    }
+
+    public void turbo() {
+        motor1_rotation_k = Drivetrainc.motor1_rotation_k_turbo;
+        motor2_rotation_k = Drivetrainc.motor2_rotation_k_turbo;
+    }
+
+    public void slow() {
+        motor1_rotation_k = Drivetrainc.motor1_rotation_k_slow;
+        motor2_rotation_k = Drivetrainc.motor2_rotation_k_slow;
+    }
+
+
 }
