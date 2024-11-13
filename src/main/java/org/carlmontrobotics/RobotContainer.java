@@ -57,6 +57,7 @@ public class RobotContainer {
     axisTrigger(controller, OI.dumperTrigger)
     .whileTrue(new InstantCommand(() -> dumper.dropOff()))
     .whileFalse(new InstantCommand(() -> dumper.rest()));
+    Trigger bothButtonsPressed = new Trigger(() -> 
             controller.getRawButton(OI.X) && controller.getRawButton(OI.B));
     bothButtonsPressed.onTrue(new InstantCommand(()-> drivetrain.madness()));
     new Trigger(() -> controller.getRawButton(OI.leftBumper)).onTrue(new InstantCommand(() -> drivetrain.slow()));
