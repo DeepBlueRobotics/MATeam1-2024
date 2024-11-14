@@ -24,6 +24,9 @@ public final class Constants {
         public static final double d_wheels = 0;//inches
         //multiplier to turn distance in inches into rotations
         public static final double kDis_Rot = 1/(wheel_diameter*pi);
+        //For accelerating drive
+        public static final boolean accelerating_drive = false;
+        public static final double acceleratingK = 0.1;
     }
     public static final class Dumperc {
         public static final int dumper_id = 2;

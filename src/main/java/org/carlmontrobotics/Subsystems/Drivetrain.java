@@ -41,6 +41,8 @@ public class Drivetrain extends SubsystemBase{
     double rotationTarget;
     double motor1_rotation_k = Drivetrainc.motor1_rotation_k_slow;
     double motor2_rotation_k = Drivetrainc.motor2_rotation_k_slow;
+    double pastMotor1Speed;
+    double pastMotor2Speed;
 
     //_init_ navx/gyro
     public Drivetrain() {
@@ -57,28 +59,57 @@ public class Drivetrain extends SubsystemBase{
         pid2.setI(Drivetrainc.kI);
         pid2.setD(Drivetrainc.kD);
     }
+    //WHY NO PREDEFINED INPUTS 😭
+    public void drive(double motor1_input, double motor2_input, boolean acceleration) {
+        if (acceleration) {
+            motor1.set(motor1_input + pastMotor1Speed * Drivetrainc.acceleratingK);
+            motor2.set(motor2_input + pastMotor2Speed * Drivetrainc.acceleratingK);
+            pastMotor1Speed = motor1_input;
+            pastMotor2Speed = motor2_input;
+        }
+        else {
+            motor1.set(motor1_input);
+            motor2.set(motor2_input);
+        }
+    }
+    // overloaded method
+    public void drive(double motor1_input, double motor2_input) {
+        if (Drivetrainc.accelerating_drive) {
+            motor1.set(motor1_input + pastMotor1Speed * Drivetrainc.acceleratingK);
+            motor2.set(motor2_input + pastMotor2Speed * Drivetrainc.acceleratingK);
+            pastMotor1Speed = motor1_input;
+            pastMotor2Speed = motor2_input;
+        }
+        else {
+            motor1.set(motor1_input);
+            motor2.set(motor2_input);
+        }
+    }
 
     //Arcade Drive method, inputs are left y axis for forward and backward and a right x axis for rotional movement
     public void arcadeDrive(double leftY, double rightX) {
         if (checkBalance()) {
             double[] motorInputs = jIP(leftY, rightX);
-            motor1.set(motorInputs[0]*motor1_rotation_k);
-            motor2.set(motorInputs[1]*motor2_rotation_k);
+            drive(motorInputs[0]*motor1_rotation_k, motorInputs[1]*motor2_rotation_k);
+            // motor1.set(motorInputs[0]*motor1_rotation_k);
+            // motor2.set(motorInputs[1]*motor2_rotation_k);
         }
     }
     //Reversed arcade method, inputs are left x axis for rotation, right y axis for movement
     public void reversedArcadeDrive(double leftX, double rightY) {
         if (checkBalance()) {
             double[] motorInputs = jIP(rightY, leftX);
-            motor1.set(motorInputs[0]*motor1_rotation_k);
-            motor2.set(motorInputs[1]*motor2_rotation_k);
+            drive(motorInputs[0]*motor1_rotation_k, motorInputs[1]*motor2_rotation_k);
+            // motor1.set(motorInputs[0]*motor1_rotation_k);
+            // motor2.set(motorInputs[1]*motor2_rotation_k);
         }
     }
     //Tank drive method left joystick moves left motor, right joystick moves right motor
     public void tankDrive(double leftY, double rightY) {
         if (checkBalance()) {
-            motor1.set(leftY*motor1_rotation_k);
-            motor2.set(rightY*motor2_rotation_k);
+            drive(leftY*motor1_rotation_k, rightY*motor2_rotation_k);
+            // motor1.set(leftY*motor1_rotation_k);
+            // motor2.set(rightY*motor2_rotation_k);
         }
     }
         
