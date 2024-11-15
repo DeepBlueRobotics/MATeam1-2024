@@ -6,8 +6,8 @@ import edu.wpi.first.wpilibj.XboxController.Axis;
 public final class Constants {
     public static final class Drivetrainc {
         private final static double pi = Math.PI;
-        public static final int left_motor_id = 14;
-        public static final int right_motor_id = 17;
+        public static final int left_motor_id = 18;
+        public static final int right_motor_id = 20;
         //Reqires tuning and testing
         public static final double kP = 0.1;
         public static final double kI = 0.1;
@@ -29,7 +29,7 @@ public final class Constants {
         public static final double acceleratingK = 0.1;
     }
     public static final class Dumperc {
-        public static final int dumper_id = 2;
+        public static final int dumper_id = 19;
         //reqires tuning and testing
         public static final double kP = 0.1;
         public static final double kI = 0.1;
