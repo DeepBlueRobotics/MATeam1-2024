@@ -34,9 +34,9 @@ public class Dumper extends SubsystemBase{
     public Dumper() {
         //Intiallize the subsystem
         //You would want to reset the point where the motor reconginzes 0 degrees/0 rotations so it will be easier for dropOff and the other code
-        pid.setP(Dumperc.kP);
-        pid.setI(Dumperc.kI);
-        pid.setD(Dumperc.kD);
+        // pid.setP(Dumperc.kP);
+        // pid.setI(Dumperc.kI);
+        // pid.setD(Dumperc.kD);
         resetEncoder();
         
     }
@@ -63,8 +63,8 @@ public class Dumper extends SubsystemBase{
                 dumperMotor.setIdleMode(IdleMode.kBrake);
             }
             else {
-                
-                pid.setReference(target, ControlType.kPosition);
+                dumperMotor.set(0.1*Dumperc.rotation_k);
+                //pid.setReference(target, ControlType.kPosition);
             }
         }
         else {
