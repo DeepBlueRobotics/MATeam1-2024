@@ -51,6 +51,9 @@ public final class Constants {
         public static final double max_d = 96-robot_length; //inches
         public static final double averageDistance = (max_d+min_d)/2;
         public static final double drop_off_wait_time = 2.0; //seconds
+        //no pid situation
+        public static final double optimalSpeed1 = -0.3; //input speed for motor1
+        public static final double optimalSpeed2 = 0.3; //input speed for motor2
     }
     public static final class OI {
         public static final int port = 0;

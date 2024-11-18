@@ -49,11 +49,13 @@ public class HitAndRunAuton extends Command{
             if (time_dropped_off+HitAndRunAutonc.drop_off_wait_time <= timer.get()) {
                 dumper.rest();
                 currentPos = drivetrain.getDistance();
-                if (currentPos >= HitAndRunAutonc.min_d && currentPos <= HitAndRunAutonc.max_d) {
+                if (currentPos > HitAndRunAutonc.min_d && currentPos < HitAndRunAutonc.max_d) {
                     drivetrain.brakeMotor();
                 }
                 else {
-                    drivetrain.pidDrive(HitAndRunAutonc.averageDistance);
+                    //We don't have time for pid :(
+                    //drivetrain.pidDrive(HitAndRunAutonc.averageDistance);
+                    drivetrain.drive(HitAndRunAutonc.optimalSpeed1, HitAndRunAutonc.optimalSpeed2);
                 }
             }
         }
