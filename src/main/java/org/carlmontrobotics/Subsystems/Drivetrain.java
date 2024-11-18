@@ -75,16 +75,18 @@ public class Drivetrain extends SubsystemBase{
     }
     // overloaded method
     public void drive(double motor1_input, double motor2_input) {
-        if (Drivetrainc.accelerating_drive) {
-            motor1.set(motor1_input + pastMotor1Speed * Drivetrainc.acceleratingK);
-            motor2.set(motor2_input + pastMotor2Speed * Drivetrainc.acceleratingK);
-            pastMotor1Speed = motor1_input;
-            pastMotor2Speed = motor2_input;
-        }
-        else {
-            motor1.set(motor1_input);
-            motor2.set(motor2_input);
-        }
+        // if (Drivetrainc.accelerating_drive) {
+        //     motor1.set(motor1_input + pastMotor1Speed * Drivetrainc.acceleratingK);
+        //     motor2.set(motor2_input + pastMotor2Speed * Drivetrainc.acceleratingK);
+        //     pastMotor1Speed = motor1_input;
+        //     pastMotor2Speed = motor2_input;
+        // }
+        // else {
+        //     motor1.set(motor1_input);
+        //     motor2.set(motor2_input);
+        // }
+        //My mom taught me this life hack
+        drive(motor1_input, motor2_input, Drivetrainc.accelerating_drive);
     }
 
     //Arcade Drive method, inputs are left y axis for forward and backward and a right x axis for rotional movement
