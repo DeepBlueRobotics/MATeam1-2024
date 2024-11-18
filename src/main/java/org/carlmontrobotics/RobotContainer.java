@@ -34,11 +34,12 @@ import org.carlmontrobotics.Subsystems.*;
 import org.carlmontrobotics.Constants.OI;
 
 public class RobotContainer {
-  //Creating an object of DT Class
-  private final Drivetrain drivetrain = new Drivetrain();
 
   //Creating an object of Dumper Class
   private final Dumper dumper = new Dumper();
+
+  //Creating an object of DT Class
+  private final Drivetrain drivetrain = new Drivetrain(dumper);
 
   //Creates an object of Xbox controller
   private final GenericHID controller = new GenericHID(OI.port);
@@ -83,7 +84,7 @@ private void setDefaultCommands() {
 }
 
   public Command getAutonomousCommand() {
-    return Commands.print("No autonomous command configured");
+    return new HitAndRunAuton(drivetrain, dumper);
   }
 
   /**

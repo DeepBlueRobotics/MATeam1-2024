@@ -33,7 +33,7 @@ public class Drivetrain extends SubsystemBase{
     CANSparkMax motor1 = MotorControllerFactory.createSparkMax(Drivetrainc.left_motor_id,MotorConfig.NEO);
     CANSparkMax motor2 = MotorControllerFactory.createSparkMax(Drivetrainc.right_motor_id,MotorConfig.NEO);
     private AHRS navx;
-    private final Dumper dumper = new Dumper();
+    private final Dumper dumper;
     SparkPIDController pid1 = motor1.getPIDController();
     SparkPIDController pid2 = motor2.getPIDController();
     RelativeEncoder encoder1 = motor1.getEncoder();
@@ -45,7 +45,7 @@ public class Drivetrain extends SubsystemBase{
     double pastMotor2Speed;
 
     //_init_ navx/gyro
-    public Drivetrain() {
+    public Drivetrain(Dumper dumper) {
         try {
             navx = new AHRS(SPI.Port.kMXP);  // Initialize NavX
         } catch (RuntimeException ex) {
@@ -58,6 +58,7 @@ public class Drivetrain extends SubsystemBase{
         pid2.setP(Drivetrainc.kP);
         pid2.setI(Drivetrainc.kI);
         pid2.setD(Drivetrainc.kD);
+        this.dumper = dumper;
     }
     //WHY NO PREDEFINED INPUTS 😭
     public void drive(double motor1_input, double motor2_input, boolean acceleration) {
