@@ -14,9 +14,9 @@ public final class Constants {
         public static final double kD = 0.1;
         
         public static final double motor1_rotation_k_slow = -0.3;
-        public static final double motor2_rotation_k_slow = -motor1_rotation_k_slow;
+        public static final double motor2_rotation_k_slow = 0.3;
         public static final double motor1_rotation_k_turbo = -0.5;
-        public static final double motor2_rotation_k_turbo = -motor1_rotation_k_turbo;
+        public static final double motor2_rotation_k_turbo = 0.5;
         //Find out the values
         public static final double wheel_diameter = 4;//inches
         public static final double wheel_radius = 0;//inches
@@ -31,15 +31,15 @@ public final class Constants {
     public static final class Dumperc {
         public static final int dumper_id = 19;
         //reqires tuning and testing
-        public static final double kP = 0.1;
-        public static final double kI = 0.1;
-        public static final double kD = 0.1;
-        public static final double angle_off_horizontal = 30;
-        public static final double soft_stop_degrees = 50; //degrees
+        // public static final double kP = 0.1;
+        // public static final double kI = 0.1;
+        // public static final double kD = 0.1;
+        public static final double angle_off_horizontal = 16; // degres
+        public static final double soft_stop_degrees = 85; //degrees
         public static final double soft_stop_rotations = soft_stop_degrees/360; //rotations
         public static final int rotation_k = 1;
         // Figure this out
-        public static final double drop_off_angle = 45;
+        public static final double drop_off_angle = 80;
 
 
     }
@@ -70,6 +70,6 @@ public final class Constants {
     }
     public static final class TeleopC {
         // 0->ARCADE 1->REVERSEDARCADE 2-> TANK
-        public static final int driveType = 1;
+        public static final int driveType = 2;
     }
 }
