@@ -26,7 +26,7 @@ public class HitAndRunAuton extends Command{
     boolean cube_scored = false;
     double time_dropped_off;
     double currentPos;
-    double lastTimestamp;
+    double driveTime;
     
     
 
@@ -46,7 +46,7 @@ public class HitAndRunAuton extends Command{
     @Override
     public void execute() {
         if (cube_scored) {
-            if (time_dropped_off+HitAndRunAutonc.drop_off_wait_time <= timer.get()) {
+            if (driveTime <= timer.get()) {
                 dumper.rest();
                 currentPos = drivetrain.getDistance();
                 if (currentPos > HitAndRunAutonc.min_d && currentPos < HitAndRunAutonc.max_d) {
@@ -63,7 +63,7 @@ public class HitAndRunAuton extends Command{
             if (dumper.achievedDropOff()) {
                 cube_scored = true;
                 time_dropped_off = timer.get();
-                lastTimestamp = time_dropped_off+HitAndRunAutonc.drop_off_wait_time;
+                driveTime = time_dropped_off+HitAndRunAutonc.drop_off_wait_time;
             }
             else {
                 dumper.dropOff();
