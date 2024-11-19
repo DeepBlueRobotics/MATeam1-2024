@@ -169,7 +169,7 @@ public class Drivetrain extends SubsystemBase{
         encoder2.setPosition(0);
     }
 
-    //finds distance that drivetrain/robot has traveled
+    //finds distance that drivetrain/robot has traveled in inches
     public double getDistance() {
         double average_rotation = (encoder1.getPosition()+encoder2.getPosition())/2;
         return average_rotation/Drivetrainc.kDis_Rot;
