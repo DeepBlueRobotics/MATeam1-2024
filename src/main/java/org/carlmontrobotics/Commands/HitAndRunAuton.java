@@ -32,7 +32,6 @@ public class HitAndRunAuton extends Command{
 
     public HitAndRunAuton(Drivetrain drivetrain, Dumper dumper) {
         addRequirements(this.drivetrain = drivetrain, this.dumper = dumper);
-        drivetrain.resetEncoders();
     }
 
     // Called when the command is initially scheduled.
@@ -40,6 +39,7 @@ public class HitAndRunAuton extends Command{
     public void initialize()  {
         timer.reset();
         timer.start();
+        drivetrain.resetEncoders();
     }
 
     // Called every time the scheduler runs while the command is scheduled.
@@ -55,7 +55,12 @@ public class HitAndRunAuton extends Command{
                 else {
                     //We don't have time for pid :(
                     //drivetrain.pidDrive(HitAndRunAutonc.averageDistance);
-                    drivetrain.drive(HitAndRunAutonc.optimalSpeed1, HitAndRunAutonc.optimalSpeed2);
+                    if (currentPos < HitAndRunAutonc.min_d) {
+                        drivetrain.drive(HitAndRunAutonc.optimalSpeed1, HitAndRunAutonc.optimalSpeed2);
+                    }
+                    else {
+                        drivetrain.drive(-HitAndRunAutonc.optimalSpeed1, -HitAndRunAutonc.optimalSpeed2);
+                    }
                 }
             }
         }
