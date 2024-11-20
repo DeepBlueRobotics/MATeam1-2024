@@ -16,7 +16,8 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import java.util.ResourceBundle.Control;
 
 import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.PS4Controller.Axis; 
+import edu.wpi.first.wpilibj.PS4Controller.Axis;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.Timer;
@@ -43,6 +44,7 @@ public class Dumper extends SubsystemBase{
     
     public void resetEncoder() {
         dumperEncoder.setPosition(0);
+        SmartDashboard.putNumber("EncoderValue", dumperEncoder.getPosition());
     }
 
     public void dropOff() {
@@ -57,6 +59,8 @@ public class Dumper extends SubsystemBase{
         You can use motor.getEncoder().getPosition() to get the exact amount of rotations, like 2.43 rotations
         Make sure to call in softStop to make sure that you are not going to much accidently
         */
+        SmartDashboard.putNumber("EncoderValue", dumperEncoder.getPosition());
+        SmartDashboard.putBoolean("Resting", false);
         if (softStop()) {
             if (achievedDropOff()) {
                 dumperMotor.set(0);
@@ -78,7 +82,8 @@ public class Dumper extends SubsystemBase{
          return True if the current position of the slide is at the drop off angle or greater
          */
         //The postition is in degrees
-        double currentAngle = dumperEncoder.getPosition()*360;
+        double currentAngle = -dumperEncoder.getPosition()*360/12;
+        SmartDashboard.putNumber("CurrentAngle", currentAngle);
         if (currentAngle-Dumperc.angle_off_horizontal >= Dumperc.drop_off_angle) {
             return true;
         }
@@ -96,8 +101,10 @@ public class Dumper extends SubsystemBase{
 
         //have this at the end to reset pID
         //Holy shit please don't do that with locals ever again
-        double currentAngle = dumperEncoder.getPosition()*360;
-        if(currentAngle-Dumperc.angle_off_horizontal >= 90) {
+        SmartDashboard.putBoolean("Resting", true);
+        double currentAngle = -dumperEncoder.getPosition()*360/12;
+        SmartDashboard.putBoolean("Past90", currentAngle-Dumperc.angle_off_horizontal >= 80);
+        if(currentAngle-Dumperc.angle_off_horizontal >= 80) {
             dumperMotor.set(-Dumperc.rotation_k);
         }
        else {
@@ -114,7 +121,7 @@ public class Dumper extends SubsystemBase{
          return False if not
          don't worry about it being very close, that is why it is a soft stop
          */
-        double currentAngle = dumperEncoder.getPosition()*360;
+        double currentAngle = -dumperEncoder.getPosition()*360/12;
         if (currentAngle-Dumperc.angle_off_horizontal < Dumperc.soft_stop_degrees) {
             return true;
         }

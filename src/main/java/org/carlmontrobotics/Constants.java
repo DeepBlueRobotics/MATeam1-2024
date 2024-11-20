@@ -37,9 +37,9 @@ public final class Constants {
         public static final double angle_off_horizontal = 16; // degres
         public static final double soft_stop_degrees = 85; //degrees
         public static final double soft_stop_rotations = soft_stop_degrees/360; //rotations
-        public static final double rotation_k = 0.1;
-        // Figure this out
-        public static final double drop_off_angle = 80;
+        public static final double rotation_k = -0.1;
+        // Figure this outP
+        public static final double drop_off_angle = 40;
 
 
     }
@@ -92,7 +92,7 @@ public final class Constants {
     }
     public static final class TeleopC {
         // 0->ARCADE 1->REVERSEDARCADE 2-> TANK
-        public static final int driveType = 2;
+        public static final int driveType = 1;
     }
 }
 

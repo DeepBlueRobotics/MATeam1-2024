@@ -30,10 +30,10 @@ public class AutoAlignToShelf extends Command {
     public void execute() {
         double currentAngle = drivetrain.getYaw();
         if (currentAngle > AutoAlignToShelfc.goodAngle) {
-            drivetrain.drive(AutoAlignToShelfc.rotationalSpeed, -AutoAlignToShelfc.rotationalSpeed, false);
+            drivetrain.drive(AutoAlignToShelfc.rotationalSpeed, AutoAlignToShelfc.rotationalSpeed, false);
         }
         else if (currentAngle < -AutoAlignToShelfc.goodAngle) {
-            drivetrain.drive(-AutoAlignToShelfc.rotationalSpeed, AutoAlignToShelfc.rotationalSpeed, false);
+            drivetrain.drive(-AutoAlignToShelfc.rotationalSpeed, -AutoAlignToShelfc.rotationalSpeed, false);
         }
     }
 
