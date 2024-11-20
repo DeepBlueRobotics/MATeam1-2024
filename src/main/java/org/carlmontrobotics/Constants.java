@@ -37,7 +37,7 @@ public final class Constants {
         public static final double angle_off_horizontal = 16; // degres
         public static final double soft_stop_degrees = 85; //degrees
         public static final double soft_stop_rotations = soft_stop_degrees/360; //rotations
-        public static final int rotation_k = 1;
+        public static final double rotation_k = 0.1;
         // Figure this out
         public static final double drop_off_angle = 80;
 

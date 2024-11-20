@@ -63,7 +63,7 @@ public class Dumper extends SubsystemBase{
                 dumperMotor.setIdleMode(IdleMode.kBrake);
             }
             else {
-                dumperMotor.set(0.1*Dumperc.rotation_k);
+                dumperMotor.set(Dumperc.rotation_k);
                 //pid.setReference(target, ControlType.kPosition);
             }
         }
@@ -98,7 +98,7 @@ public class Dumper extends SubsystemBase{
         //Holy shit please don't do that with locals ever again
         double currentAngle = dumperEncoder.getPosition()*360;
         if(currentAngle-Dumperc.angle_off_horizontal >= 90) {
-            dumperMotor.set(-0.1*Dumperc.rotation_k);
+            dumperMotor.set(-Dumperc.rotation_k);
         }
        else {
             dumperMotor.setIdleMode(IdleMode.kCoast);;

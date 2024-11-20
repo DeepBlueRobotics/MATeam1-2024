@@ -60,8 +60,11 @@ public class RobotContainer {
     .whileFalse(new InstantCommand(() -> dumper.rest()));
     Trigger bothButtonsPressed = new Trigger(() -> 
             controller.getRawButton(OI.X) && controller.getRawButton(OI.B));
+    //press x and b to change to madness
     bothButtonsPressed.onTrue(new InstantCommand(()-> drivetrain.madness()));
+    //Left bumper for slow
     new Trigger(() -> controller.getRawButton(OI.leftBumper)).onTrue(new InstantCommand(() -> drivetrain.slow()));
+    //right bumper for turbo
     new Trigger(() -> controller.getRawButton(OI.rightBumper)).onTrue(new InstantCommand(() -> drivetrain.turbo()));
 
   }

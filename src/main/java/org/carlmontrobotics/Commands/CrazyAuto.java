@@ -13,7 +13,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 
 import edu.wpi.first.wpilibj.Timer;
 
-
+//Auto crashes into cubes and then tries to go back into safe 
 public class CrazyAuto extends Command{
     Timer timer = new Timer();
     private final Drivetrain drivetrain;
