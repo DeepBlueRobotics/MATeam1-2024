@@ -56,8 +56,9 @@ public class RobotContainer {
     axisTrigger(controller, OI.alignTrigger)
     .whileTrue(new AutoAlignToShelf(drivetrain));
     axisTrigger(controller, OI.dumperTrigger)
-    .whileTrue(new InstantCommand(() -> dumper.dropOff()))
-    .whileFalse(new InstantCommand(() -> dumper.rest()));
+    .whileTrue(new DropOff(dumper));
+    axisTrigger(controller, OI.dumperTrigger)
+    .whileFalse(new Rest(dumper));
     Trigger bothButtonsPressed = new Trigger(() -> 
             controller.getRawButton(OI.X) && controller.getRawButton(OI.B));
     //press x and b to change to madness
