@@ -14,7 +14,7 @@ import com.ctre.phoenix6.mechanisms.swerve.SwerveModule.DriveRequestType;
 import edu.wpi.first.wpilibj2.command.Command;
 
 public class TeleopDrive extends Command {
-    public final Drivetrain drivetrain;
+    private final Drivetrain drivetrain;
     private DoubleSupplier forwardArcade;
     private DoubleSupplier rotateArcade;
     private DoubleSupplier forwardReversedArcade;
