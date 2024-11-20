@@ -44,20 +44,12 @@ public class Dumper extends SubsystemBase{
     
     public void resetEncoder() {
         dumperEncoder.setPosition(0);
-        SmartDashboard.putNumber("EncoderValue", dumperEncoder.getPosition());
+        SmartDashboard.putNumber("StartingEncoderValue", dumperEncoder.getPosition());
     }
 
     public void dropOff() {
         /* 
-        Make the motor go the speed of pID(currrent angle, target angle, kP, kI, KD) that will go toward the goal of staying at the dropoff angle
-        Make sure you know what units you are using for the angles, motor.getEncoder().getPosition() gets the answer in rotations 
-        but if your constant for target angle is in degrees that will be a problem
-        While the specfic button is pressed, robot container will continously call this causing the slide to be at the angle
-        Leave break mode on so it will not osilate too much
-        motor.setIdleMode(IdleMode.kBrake);
-        Warning! brake mode does not fully stop the motor from moving! The slide is heavy and so gravity will pull it downs
-        You can use motor.getEncoder().getPosition() to get the exact amount of rotations, like 2.43 rotations
-        Make sure to call in softStop to make sure that you are not going to much accidently
+        Aproaches a certain angle 
         */
         SmartDashboard.putNumber("EncoderValue", dumperEncoder.getPosition());
         SmartDashboard.putBoolean("Resting", false);
@@ -82,7 +74,7 @@ public class Dumper extends SubsystemBase{
          return True if the current position of the slide is at the drop off angle or greater
          */
         //The postition is in degrees
-        double currentAngle = -dumperEncoder.getPosition()*360/12;
+        double currentAngle = -dumperEncoder.getPosition()*360*Dumperc.gearRatio;
         SmartDashboard.putNumber("CurrentAngle", currentAngle);
         if (currentAngle-Dumperc.angle_off_horizontal >= Dumperc.drop_off_angle) {
             return true;
@@ -94,16 +86,11 @@ public class Dumper extends SubsystemBase{
     }
 
     public void rest() {
-        //When the specific button is not pressed this method will be called.
-        //IF the dumper tips over 90 degrees, rest should cause to go back SLOWLY not agressive
+        //IF the dumper tips over 70 degrees, rest should cause to go back SLOWLY not agressive
         //IF it is not tipped over then use motor.setIdleMode(IdleMode.kCoast); 
-        //this will cause the motor to stop preventing itself from moving and will easily go down
-
-        //have this at the end to reset pID
-        //Holy shit please don't do that with locals ever again
         SmartDashboard.putBoolean("Resting", true);
-        double currentAngle = -dumperEncoder.getPosition()*360/12;
-        SmartDashboard.putBoolean("Past90", currentAngle-Dumperc.angle_off_horizontal >= 80);
+        double currentAngle = -dumperEncoder.getPosition()*360*Dumperc.gearRatio;
+        SmartDashboard.putBoolean("Past80", currentAngle-Dumperc.angle_off_horizontal >= 80);
         if(currentAngle-Dumperc.angle_off_horizontal >= 80) {
             dumperMotor.set(-Dumperc.rotation_k);
         }
@@ -115,13 +102,10 @@ public class Dumper extends SubsystemBase{
 
     public boolean softStop() {
         /*
-         Prevent the robot to go try to flippen flip himself over
-         use Dumperc.soft_stop_degrees or Dumperc.soft_stop_rotations. Make sure you know which one you are using
          return True if the robot can keep rotating more/move away
          return False if not
-         don't worry about it being very close, that is why it is a soft stop
          */
-        double currentAngle = -dumperEncoder.getPosition()*360/12;
+        double currentAngle = -dumperEncoder.getPosition()*360*Dumperc.gearRatio;
         if (currentAngle-Dumperc.angle_off_horizontal < Dumperc.soft_stop_degrees) {
             return true;
         }
