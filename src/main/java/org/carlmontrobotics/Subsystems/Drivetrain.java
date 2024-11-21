@@ -63,10 +63,18 @@ public class Drivetrain extends SubsystemBase{
     //WHY NO PREDEFINED INPUTS 😭
     public void drive(double motor1_input, double motor2_input, boolean acceleration) {
         if (acceleration) {
-            motor1.set(motor1_input + pastMotor1Speed * Drivetrainc.acceleratingK);
-            motor2.set(motor2_input + pastMotor2Speed * Drivetrainc.acceleratingK);
-            pastMotor1Speed = motor1_input;
-            pastMotor2Speed = motor2_input;
+            if (Math.abs(motor1_input) < Drivetrainc.min_acceleration && Math.abs(motor2_input) < Drivetrainc.min_acceleration) {
+                pastMotor1Speed = 0;
+                pastMotor2Speed = 0;
+                motor1.set(motor1_input);
+                motor2.set(motor2_input);
+            }
+            else {
+                motor1.set(motor1_input + pastMotor1Speed * Drivetrainc.acceleratingK);
+                motor2.set(motor2_input + pastMotor2Speed * Drivetrainc.acceleratingK);
+                pastMotor1Speed = (motor1_input+pastMotor1Speed)/2;
+                pastMotor2Speed = (motor2_input+pastMotor1Speed)/2;
+            }
         }
         else {
             motor1.set(motor1_input);
