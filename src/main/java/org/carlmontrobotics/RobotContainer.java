@@ -89,6 +89,7 @@ private void setDefaultCommands() {
 
   public Command getAutonomousCommand() {
     return new HitAndRunAuton(drivetrain, dumper);
+    //return new SimpleAuto(drivetrain);
   }
 
   /**

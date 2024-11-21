@@ -27,6 +27,7 @@ public final class Constants {
         //For accelerating drive
         public static final boolean accelerating_drive = false;
         public static final double acceleratingK = 0.1;
+        public static final double min_acceleration = 0.4*motor2_rotation_k_slow;
     }
     public static final class Dumperc {
         public static final int dumper_id = 19;
@@ -47,20 +48,22 @@ public final class Constants {
     public static final class HitAndRunAutonc {
         //from the center of the robot
         //FIND THESE OUT
-        public static final double min_d = 54;//inches
+        public static final double goodDistance = 3; //Just to be safe that the robot is definitly inside the perimeter
+        public static final double min_d = 54+goodDistance;//inches
         public static final double robot_length = 18;//inches
-        public static final double max_d = 96-robot_length; //inches
-        public static final double averageDistance = (max_d+min_d)/2;
+        public static final double max_d = 96-robot_length-goodDistance; //inches
+        public static final double averageDistance = (max_d+min_d)/2; //inches
         public static final double drop_off_wait_time = 2.0; //seconds
         //no pid situation
         public static final double optimalSpeed1 = -0.3; //input speed for motor1
         public static final double optimalSpeed2 = 0.3; //input speed for motor2
     }
     public static final class SimpleAutoc {
-        public static final double robot_length = 18;
-        public static final double min_d = 0;
-        public static final double max_d = 0;
-        public static final double averageDistance = (max_d+min_d)/2;
+        public static final double goodDistance = 3; //Just to be safe that the robot is definitly inside the perimeter
+        public static final double robot_length = 18; //inches
+        public static final double min_d = 54+goodDistance; //inches
+        public static final double max_d = 96-robot_length-goodDistance; //inches
+        public static final double averageDistance = (max_d+min_d)/2; //inches
         public static final double optimalSpeed1 = -0.3; //input speed for motor1
         public static final double optimalSpeed2 = 0.3; //input speed for motor2
     }
