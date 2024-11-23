@@ -101,7 +101,7 @@ public class Dumper extends SubsystemBase{
     }
 
     public double getEncoderPosition() {
-        return dumperEncoder.getPosition()*(-1)*Dumperc.gearRatio
+        return dumperEncoder.getPosition()*(-1)*Dumperc.gearRatio;
     }
 
     public boolean softStop() {
