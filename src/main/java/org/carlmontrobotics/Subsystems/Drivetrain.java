@@ -59,6 +59,11 @@ public class Drivetrain extends SubsystemBase{
         // pid2.setI(Drivetrainc.kI);
         // pid2.setD(Drivetrainc.kD);
         this.dumper = dumper;
+        motor1.setSmartCurrentLimit(30);
+        motor1.burnFlash();
+        motor2.setSmartCurrentLimit(30);
+        motor2.burnFlash();
+
     }
     //WHY NO PREDEFINED INPUTS 😭
     public void drive(double motor1_input, double motor2_input, boolean acceleration) {
