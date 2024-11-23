@@ -47,7 +47,7 @@ public class HitAndRunAuton extends Command{
     public void execute() {
         if (cube_scored) {
             if (driveTime <= timer.get()) {
-                dumper.rest();
+                dumper.moveMotor(0);
                 currentPos = drivetrain.getDistance();
                 if (currentPos > HitAndRunAutonc.min_d && currentPos < HitAndRunAutonc.max_d) {
                     drivetrain.brakeMotor();
@@ -65,13 +65,14 @@ public class HitAndRunAuton extends Command{
             }
         }
         else {
-            if (dumper.achievedDropOff()) {
+            if (timer.get() > 2) {
                 cube_scored = true;
                 time_dropped_off = timer.get();
                 driveTime = time_dropped_off+HitAndRunAutonc.drop_off_wait_time;
+                dumper.moveMotor(0.1);
             }
             else {
-                dumper.dropOff();
+                dumper.moveMotor(-0.1);
             }
         }
     }

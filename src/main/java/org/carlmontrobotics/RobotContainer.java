@@ -55,10 +55,12 @@ public class RobotContainer {
   private void setBindings() {
     axisTrigger(controller, OI.alignTrigger)
     .whileTrue(new AutoAlignToShelf(drivetrain));
-    axisTrigger(controller, OI.dumperTrigger)
-    .whileTrue(new DropOff(dumper));
-    axisTrigger(controller, OI.dumperTrigger)
-    .whileFalse(new Rest(dumper));
+    // axisTrigger(controller, OI.dumperTrigger)
+    // .whileTrue(new StopMotor(dumper));
+    // axisTrigger(controller, OI.dumperTrigger)
+    // .whileFalse(new Rest(dumper));
+    new Trigger(() -> controller.getRawButton(OI.Y)).whileTrue(new DropOff(dumper));
+    new Trigger(() -> controller.getRawButton(OI.A)).whileTrue(new Rest(dumper));
     Trigger bothButtonsPressed = new Trigger(() -> 
             controller.getRawButton(OI.X) && controller.getRawButton(OI.B));
     //press x and b to change to madness

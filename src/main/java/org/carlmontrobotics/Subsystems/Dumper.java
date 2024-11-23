@@ -32,6 +32,7 @@ public class Dumper extends SubsystemBase{
     RelativeEncoder dumperEncoder = dumperMotor.getEncoder();
     double target;
 
+
     public Dumper() {
         //Intiallize the subsystem
         //You would want to reset the point where the motor reconginzes 0 degrees/0 rotations so it will be easier for dropOff and the other code
@@ -41,10 +42,18 @@ public class Dumper extends SubsystemBase{
         resetEncoder();
         
     }
-    
+    public void resetSmartLimit() {
+        dumperMotor.setSmartCurrentLimit(30);
+        dumperMotor.burnFlash();
+    }
+
     public void resetEncoder() {
         dumperEncoder.setPosition(0);
         SmartDashboard.putNumber("StartingEncoderValue", dumperEncoder.getPosition());
+    }
+
+    public void moveMotor(double speed) {
+        dumperMotor.set(speed);
     }
 
     public void dropOff() {
@@ -92,7 +101,9 @@ public class Dumper extends SubsystemBase{
         double currentAngle = -dumperEncoder.getPosition()*360*Dumperc.gearRatio;
         SmartDashboard.putBoolean("Past80", currentAngle-Dumperc.angle_off_horizontal >= 80);
         if(currentAngle-Dumperc.angle_off_horizontal >= 80) {
-            dumperMotor.set(-Dumperc.rotation_k);
+            dumperMotor.set(
+                Dumperc.rotation_k);
+            System.out.print("resting");
         }
        else {
             dumperMotor.setIdleMode(IdleMode.kCoast);;
