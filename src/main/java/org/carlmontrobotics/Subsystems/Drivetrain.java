@@ -52,12 +52,12 @@ public class Drivetrain extends SubsystemBase{
             System.out.println("Error instantiating navX: " + ex.getMessage());
         }
         //set up PID
-        pid1.setP(Drivetrainc.kP);
-        pid1.setI(Drivetrainc.kI);
-        pid1.setD(Drivetrainc.kD);
-        pid2.setP(Drivetrainc.kP);
-        pid2.setI(Drivetrainc.kI);
-        pid2.setD(Drivetrainc.kD);
+        // pid1.setP(Drivetrainc.kP);
+        // pid1.setI(Drivetrainc.kI);
+        // pid1.setD(Drivetrainc.kD);
+        // pid2.setP(Drivetrainc.kP);
+        // pid2.setI(Drivetrainc.kI);
+        // pid2.setD(Drivetrainc.kD);
         this.dumper = dumper;
     }
     //WHY NO PREDEFINED INPUTS 😭
