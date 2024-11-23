@@ -111,6 +111,10 @@ public class Dumper extends SubsystemBase{
         
     }
 
+    public double getEncoderPosition() {
+        return dumperEncoder.getPosition()*(-1)*Dumperc.gearRatio
+    }
+
     public boolean softStop() {
         /*
          return True if the robot can keep rotating more/move away
