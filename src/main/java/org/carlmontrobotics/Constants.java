@@ -41,7 +41,8 @@ public final class Constants {
         public static final double rotation_k = -0.1;
         // Figure this outP
         public static final double drop_off_angle = 40;
-        public static final double gearRatio = 1/12;
+        public static final double gearRatio = 1.0/12.0;
+        
 
 
     }
