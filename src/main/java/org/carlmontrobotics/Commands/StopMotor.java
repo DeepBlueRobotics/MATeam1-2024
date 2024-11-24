@@ -5,15 +5,13 @@
 package org.carlmontrobotics.Commands;
 
 import org.carlmontrobotics.Subsystems.Dumper;
-import org.carlmontrobotics.lib199.DummySparkMaxAnswer;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 
-public class Rest extends Command {
-  /** Creates a new Rest. */
+public class StopMotor extends Command {
+  /** Creates a new StopMotor. */
   private final Dumper dumper;
-  public Rest(Dumper dumper) {
+  public StopMotor(Dumper dumper) {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(this.dumper = dumper);
   }
@@ -25,11 +23,10 @@ public class Rest extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    // dumper.rest();
-    dumper.moveMotor(0.1);
-    
-
+    dumper.moveMotor(0);
+    dumper.resetSmartLimit();
   }
+
 
   // Called once the command ends or is interrupted.
   @Override

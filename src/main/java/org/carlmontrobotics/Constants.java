@@ -50,9 +50,9 @@ public final class Constants {
         //from the center of the robot
         //FIND THESE OUT
         public static final double goodDistance = 3; //Just to be safe that the robot is definitly inside the perimeter
-        public static final double min_d = 54+goodDistance;//inches
+        public static final double min_d = 72+goodDistance;//inches
         public static final double robot_length = 18;//inches
-        public static final double max_d = 96-robot_length-goodDistance; //inches
+        public static final double max_d = 100-robot_length-goodDistance; //inches
         public static final double averageDistance = (max_d+min_d)/2; //inches
         public static final double drop_off_wait_time = 2.0; //seconds
         //no pid situation
@@ -81,7 +81,8 @@ public final class Constants {
     }
     public static final class OI {
         public static final int port = 0;
-        public static final Axis dumperTrigger = Axis.kRightTrigger;
+        public static final Axis 
+        dumperTrigger = Axis.kRightTrigger;
         public static final Axis alignTrigger = Axis.kLeftTrigger;
         public static final double MIN_AXIS_TRIGGER_VALUE = 0.2;
         public static final int A = 1;
@@ -92,7 +93,7 @@ public final class Constants {
         public static final int rightBumper = 6;
     }
     public static final class AutoAlignToShelfc {
-        public static final double rotationalSpeed = 0.5;
+        public static final double rotationalSpeed = 0.2;
         public static final double goodAngle = 5; //degees
     }
     public static final class TeleopC {

@@ -156,7 +156,7 @@ public class Drivetrain extends SubsystemBase{
             return arr;
         }
         else if (yAxis<0) {
-            return negYArr;
+            return posYArr;
         }
         else if (yAxis > 0) {
             return posYArr;
@@ -184,8 +184,7 @@ public class Drivetrain extends SubsystemBase{
 
     //finds distance that drivetrain/robot has traveled in inches
     public double getDistance() {
-        double average_rotation = (encoder1.getPosition()+encoder2.getPosition())/2;
-        return average_rotation/Drivetrainc.kDis_Rot;
+        return encoder2.getPosition()/Drivetrainc.kDis_Rot*1/4;
     }
     //makes sure that the robot won't run away while the dumper is off balance
     private boolean checkBalance() {
